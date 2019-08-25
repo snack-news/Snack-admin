@@ -6,6 +6,9 @@
 </template>
 
 <style lang="scss">
+  @import '~bootstrap/dist/css/bootstrap.css';
+  @import '~bootstrap-vue/dist/bootstrap-vue.css';
+
   html, body {
     height: 100%;
     background-color: #f2f3f8;
