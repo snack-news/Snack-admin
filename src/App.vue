@@ -8,10 +8,10 @@
 <style lang="scss">
   @import '~bootstrap/dist/css/bootstrap.css';
   @import '~bootstrap-vue/dist/bootstrap-vue.css';
+  @import './styles/index.scss';
 
   html, body {
     height: 100%;
-    background-color: #f2f3f8;
   }
   #app {
     height: 100%;
@@ -19,10 +19,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     padding: 65px 0 0;
-    text-align: center;
     color: #2c3e50;
-
-
   }
 
 </style>
