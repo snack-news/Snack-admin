@@ -8,7 +8,7 @@
 
   @Component
   export default class CustomTitle extends Vue {
-    @Prop() tag!: string;
+    @Prop(({ default: "h1" })) tag!: string;
     @Prop() title!: string;
     mounted () {
       console.log(this.tag);

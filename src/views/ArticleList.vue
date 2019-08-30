@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <div class="article-list">
-      <custom-title tag="h3" title="에디터 어드민" />
+      <custom-title title="에디터 어드민" />
       <article-list-table />
       <b-pagination v-model="currentPage"
                     :total-rows="rows"
