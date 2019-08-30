@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Home from '@/views/Home.vue'
 import Signin from '@/views/Signin.vue'
+import ArticleForm from '@/views/NewArticle.vue'
 import ArticleList from '@/views/ArticleList.vue'
 
 import HeaderComponent from '@/components/Layouts/HeaderComponent.vue'
@@ -33,6 +34,13 @@ export default new Router({
       name: 'ArticleList',
       components: {
         default: ArticleList
+      }
+    },
+    {
+      path: '/new-article',
+      name: 'ArticleForm',
+      components: {
+        default: ArticleForm
       }
     },
   ]
