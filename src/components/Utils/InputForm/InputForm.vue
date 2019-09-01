@@ -34,14 +34,24 @@
 <style lang="scss" scoped>
   .input-form {
     margin-bottom: 32px;
+
     &.has-paragraph {
       margin-bottom: 24px;
     }
     label {
+      position: relative;
+      display: block;
+      padding-left: 108px;
       strong {
-
+        position: absolute;
+        left: 0;
+        top: 2px;
+        font-size: 22px;
+        font-weight: normal;
+        color: #0f0f0f;
       }
       input {
+        width: 100%;
         padding: 12px 18px;
         border: solid 1px #0f0f0f;
         font-size: 15px;
