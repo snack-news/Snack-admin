@@ -16,7 +16,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>번호</td>
+          <td>1</td>
           <td>TOP</td>
           <td>카테고리</td>
           <td>토픽(회사)</td>
@@ -25,8 +25,59 @@
           <td>수정일</td>
           <td>업로드 예약일</td>
           <td>
-            수정<br />
-            삭제
+            <button type="button">삭제</button>
+          </td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>TOP</td>
+          <td>카테고리</td>
+          <td>토픽(회사)</td>
+          <td>제목</td>
+          <td>생성일</td>
+          <td>수정일</td>
+          <td>업로드 예약일</td>
+          <td>
+            <button type="button">삭제</button>
+          </td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>TOP</td>
+          <td>카테고리</td>
+          <td>토픽(회사)</td>
+          <td>제목</td>
+          <td>생성일</td>
+          <td>수정일</td>
+          <td>업로드 예약일</td>
+          <td>
+            <button type="button">삭제</button>
+          </td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>TOP</td>
+          <td>카테고리</td>
+          <td>토픽(회사)</td>
+          <td>제목</td>
+          <td>생성일</td>
+          <td>수정일</td>
+          <td>업로드 예약일</td>
+          <td>
+            <button type="button">삭제</button>
+          </td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>TOP</td>
+          <td>카테고리</td>
+          <td>토픽(회사)</td>
+          <td>제목</td>
+          <td>생성일</td>
+          <td>수정일</td>
+          <td>업로드 예약일</td>
+          <td>
+            <button type="button">삭제</button>
           </td>
         </tr>
       </tbody>
@@ -63,6 +114,9 @@
           font-size: 14px;
           font-weight: normal;
           color: #0f0f0f;
+          button {
+            color: #f10202;
+          }
         }
       }
     }
