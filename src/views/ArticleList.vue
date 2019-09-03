@@ -11,7 +11,7 @@
       <!-- // 탭 영역 -->
       <!-- 버튼 영역 -->
       <div class="article-list__button-wrapper">
-        <custom-button>소식 작성</custom-button>
+        <router-link :to="{ name: 'ArticleForm' }">소식 작성</router-link>
       </div>
       <!-- // 버튼 영역 -->
       <article-list-table />
@@ -28,8 +28,6 @@
   import CustomTitle from "@/components/Utils/CustomTitle/CustomTitle.vue";
   import ArticleListTable from "@/components/ArticleListTable/ArticleListTable.vue";
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
-  import { Route } from "vue-router";
-  import { Next } from "@/@types/library/vue-router";
 
 
   Component.registerHooks([
@@ -83,6 +81,12 @@
     .article-list__button-wrapper {
       margin-bottom: 92px;
       text-align: right;
+      a {
+        padding: 13px 31px 11px;
+        font-size: 18px;
+        color: #fff;
+        background-color: #3559e4;
+      }
     }
     .article-list__pagination-wrapper {
       text-align: center;
