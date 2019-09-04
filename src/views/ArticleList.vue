@@ -1,27 +1,25 @@
 <template>
-  <b-container>
-    <div class="article-list">
-      <custom-title title="에디터 어드민" />
-      <!-- 탭 영역 -->
-      <ul>
-        <li><router-link :to="{ query: { type: 'news' }}">news(소식)</router-link></li>
-        <li><router-link :to="{ query: { type: 'sub-news' }}">news(관련 소식)</router-link></li>
-        <li><router-link  :to="{ query: { type: 'picks' }}">picks(아티클)</router-link></li>
-      </ul>
-      <!-- // 탭 영역 -->
-      <!-- 버튼 영역 -->
-      <div class="article-list__button-wrapper">
-        <router-link :to="{ name: 'ArticleForm' }">소식 작성</router-link>
-      </div>
-      <!-- // 버튼 영역 -->
-      <article-list-table />
-      <b-pagination v-model="currentPage"
-                    :total-rows="rows"
-                    :per-page="perPage"
-                    :align="'center'"
-                    aria-controls="my-table" />
+  <div class="article-list">
+    <custom-title title="에디터 어드민" />
+    <!-- 탭 영역 -->
+    <ul>
+      <li><router-link :to="{ query: { type: 'news' }}">news(소식)</router-link></li>
+      <li><router-link :to="{ query: { type: 'sub-news' }}">news(관련 소식)</router-link></li>
+      <li><router-link  :to="{ query: { type: 'picks' }}">picks(아티클)</router-link></li>
+    </ul>
+    <!-- // 탭 영역 -->
+    <!-- 버튼 영역 -->
+    <div class="article-list__button-wrapper">
+      <router-link :to="{ name: 'ArticleForm' }">소식 작성</router-link>
     </div>
-  </b-container>
+    <!-- // 버튼 영역 -->
+    <article-list-table />
+    <b-pagination v-model="currentPage"
+                  :total-rows="rows"
+                  :per-page="perPage"
+                  :align="'center'"
+                  aria-controls="my-table" />
+  </div>
 </template>
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator';
