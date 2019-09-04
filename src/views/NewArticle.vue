@@ -8,14 +8,30 @@
                     label="제목"
                     paragraph="가이드 : N자가 넘어가면 모바일에서 줄바꿈이 많이 일어나니 참고해주세요." />
         <input-form v-model="date"
+                    type="date"
                     label="날짜"
                     paragraph="가이드 : 발행하는 '주(week)'를 위해 설정하는 작업입니다. 선택 안할 시 디폴트는 작성 완료 시간 및 해당 주입니다." />
-        <input-form v-model="date"
+        <input-form type="select"
+                    v-model="topic"
+                    :options="options"
+                    label="목차링크"
+                    paragraph="가이드 : 고유한 링크를 만들어 목차를 생성하는 작업이라 중요합니다. 공유할 때도 고유링크를 사용합니다." />
+        <input-form v-model="topic"
+                    label="목차링크"
+                    paragraph="가이드 : 고유한 링크를 만들어 목차를 생성하는 작업이라 중요합니다. 공유할 때도 고유링크를 사용합니다." />
+        <input-form v-model="topic"
                     label="토픽(회사)"
                     paragraph="제한은 없으나, 가이드를 참조해주세요." />
+        <input-form v-model="contents"
+                    label="본문"
+                    paragraph="제한은 없으나, 가이드를 참조해주세요.(가이드 바로가기)" />
         <input-form v-model="link"
                     label="참고 링크"
                     paragraph="가이드 : 이 소식을 작성하기 위해 참고한 뉴스링크나 소식링크가 있으면 적어주세요. 없으면 UI에 나타나지 않습니다." />
+        <input-form v-model="reservedDate"
+                    type="date"
+                    label="예약업로"
+                    paragraph="설정한 날짜에 업로드 됩니다." />
       </div>
       <!-- // 입력 폼 레이아웃 -->
       <!-- 미리보기 레이아웃 -->
@@ -39,15 +55,21 @@
 </template>
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator";
+  import DatePicker from "@/components/Utils/DatePicker/DatePicker.vue";
   import CustomTitle from "@/components/Utils/CustomTitle/CustomTitle.vue";
   import InputForm from "@/components/Utils/InputForm/InputForm.vue";
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
 
+  // @TODO 이후 데이터로 변경
+  const options = [
+    { value: "IT", text: "IT" }
+  ];
   @Component({
     components: {
       CustomButton,
       InputForm,
-      CustomTitle
+      CustomTitle,
+      DatePicker
     }
   })
   export default class NewArticle extends Vue {
@@ -55,6 +77,9 @@
     date: string;
     link: string;
     topic: string;
+    options: { value: string; text: string; }[];
+    reservedDate: string;
+    contents: string;
 
     constructor() {
       super();
@@ -62,6 +87,9 @@
       this.date = "";
       this.link = "";
       this.topic = "";
+      this.reservedDate = "";
+      this.options = options;
+      this.contents = "";
     }
 
   }
