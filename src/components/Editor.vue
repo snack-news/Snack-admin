@@ -1,23 +1,19 @@
 <template>
-  <div>
-    <div class="editor" id="codex-editor">
-    </div>
-    <button type="button" @click="onSaveHandler">저장</button>
+  <div class="editor" id="codex-editor">
   </div>
-
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator';
-  import EditorJS from '@editorjs/editorjs';
-  import List from '@editorjs/list';
-  import Header from '@editorjs/header';
-  import ImageTool from '@editorjs/image';
-  import Embed from '@editorjs/embed';
+  import { Component, Prop, Vue, PropSync } from "vue-property-decorator";
+  import EditorJS from "@editorjs/editorjs";
+  import List from "@editorjs/list";
+  import Header from "@editorjs/header";
+  import ImageTool from "@editorjs/image";
+  import Embed from "@editorjs/embed";
   import { INullable } from "@/@types/utility";
 
   @Component({
-    name: 'Editor',
+    name: "Editor"
   })
   export default class Editor extends Vue {
     test: INullable<EditorJS>;
@@ -29,7 +25,7 @@
 
     created() {
       this.test = new EditorJS({
-        holderId: 'codex-editor',
+        holderId: "codex-editor",
         tools: {
           header: Header,
           embed: {
@@ -37,18 +33,18 @@
             inlineToolbar: false,
             config: {
               services: {
-                youtube: true,
+                youtube: true
               }
             }
           },
           list: {
             class: List,
-            inlineToolbar: true,
+            inlineToolbar: true
           },
           image: {
             class: ImageTool
           }
-        },
+        }
       });
     }
 
@@ -60,7 +56,7 @@
           .then(res => {
             alert("콘솔창 열어보면 JSON 형태로 볼수 있삼");
             console.log(res);
-            this.$emit('onSaveHandler', JSON.stringify(res));
+            this.$emit("onSaveHandler", JSON.stringify(res));
           })
       }
     }
@@ -71,5 +67,6 @@
   .editor {
     text-align: left;
     height: 100%;
+    border: solid 1px #0f0f0f;
   }
 </style>

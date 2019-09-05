@@ -4,34 +4,73 @@
     <form>
       <!-- 입력 폼 레이아웃 -->
       <div class="new-article__form-layout">
-        <input-form v-model="title"
-                    label="제목"
-                    paragraph="가이드 : N자가 넘어가면 모바일에서 줄바꿈이 많이 일어나니 참고해주세요." />
-        <input-form v-model="date"
-                    type="date"
-                    label="날짜"
-                    paragraph="가이드 : 발행하는 '주(week)'를 위해 설정하는 작업입니다. 선택 안할 시 디폴트는 작성 완료 시간 및 해당 주입니다." />
-        <input-form type="select"
-                    v-model="topic"
-                    :options="options"
-                    label="목차링크"
-                    paragraph="가이드 : 고유한 링크를 만들어 목차를 생성하는 작업이라 중요합니다. 공유할 때도 고유링크를 사용합니다." />
-        <input-form v-model="topic"
-                    label="목차링크"
-                    paragraph="가이드 : 고유한 링크를 만들어 목차를 생성하는 작업이라 중요합니다. 공유할 때도 고유링크를 사용합니다." />
-        <input-form v-model="topic"
-                    label="토픽(회사)"
-                    paragraph="제한은 없으나, 가이드를 참조해주세요." />
-        <input-form v-model="contents"
-                    label="본문"
-                    paragraph="제한은 없으나, 가이드를 참조해주세요.(가이드 바로가기)" />
-        <input-form v-model="link"
-                    label="참고 링크"
-                    paragraph="가이드 : 이 소식을 작성하기 위해 참고한 뉴스링크나 소식링크가 있으면 적어주세요. 없으면 UI에 나타나지 않습니다." />
-        <input-form v-model="reservedDate"
-                    type="date"
-                    label="예약업로"
-                    paragraph="설정한 날짜에 업로드 됩니다." />
+        <div class="input-form has-paragraph">
+          <label>
+            <strong>제목</strong>
+            <input type="text" v-model="title" />
+            <p>가이드 : N자가 넘어가면 모바일에서 줄바꿈이 많이 일어나니 참고해주세요.</p>
+          </label>
+        </div>
+
+        <div class="input-form has-paragraph">
+          <label>
+            <strong>날짜</strong>
+            <date-picker v-model="date" />
+            <p>가이드 : 발행하는 '주(week)'를 위해 설정하는 작업입니다. 선택 안할 시 디폴트는 작성 완료 시간 및 해당 주입니다.</p>
+          </label>
+        </div>
+
+        <div class="input-form">
+          <label>
+            <strong>카테고리</strong>
+            <select v-model="category">
+              <option :key="option.value" v-for="option in options" :value="option.value">
+                {{ option.text }}
+              </option>
+            </select>
+          </label>
+        </div>
+
+        <div class="input-form has-paragraph">
+          <label>
+            <strong>목차링크</strong>
+            <input type="text" v-model="topicLink" />
+            <p>가이드 : 고유한 링크를 만들어 목차를 생성하는 작업이라 중요합니다. 공유할 때도 고유링크를 사용합니다.</p>
+          </label>
+        </div>
+
+        <div class="input-form has-paragraph">
+          <label>
+            <strong>토픽(회사)</strong>
+            <input type="text" v-model="topic" />
+            <p>제한은 없으나, 가이드를 참조해주세요. <a>가이드 바로가기</a></p>
+          </label>
+        </div>
+
+        <div class="input-form has-paragraph">
+          <label>
+            <strong>본문</strong>
+            <editor v-model="contents" @onSaveHandler="onSaveHandler" />
+            <p>제한은 없으나, 가이드를 참조해주세요. <a>가이드 바로가기</a></p>
+            {{ contents }}
+          </label>
+        </div>
+
+        <div class="input-form has-paragraph">
+          <label>
+            <strong>참고 링크</strong>
+            <input type="text" v-model="link" />
+            <p>가이드 : 이 소식을 작성하기 위해 참고한 뉴스링크나 소식링크가 있으면 적어주세요. 없으면 UI에 나타나지 않습니다.</p>
+          </label>
+        </div>
+
+        <div class="input-form has-paragraph">
+          <label>
+            <strong>예약업로드</strong>
+            <date-picker v-model="reservedDate" />
+            <p>설정한 날짜에 업로드 됩니다.</p>
+          </label>
+        </div>
       </div>
       <!-- // 입력 폼 레이아웃 -->
       <!-- 미리보기 레이아웃 -->
@@ -57,7 +96,7 @@
   import { Component, Vue } from "vue-property-decorator";
   import DatePicker from "@/components/Utils/DatePicker/DatePicker.vue";
   import CustomTitle from "@/components/Utils/CustomTitle/CustomTitle.vue";
-  import InputForm from "@/components/Utils/InputForm/InputForm.vue";
+  import Editor from "@/components/Editor.vue";
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
 
   // @TODO 이후 데이터로 변경
@@ -67,9 +106,9 @@
   @Component({
     components: {
       CustomButton,
-      InputForm,
       CustomTitle,
-      DatePicker
+      DatePicker,
+      Editor
     }
   })
   export default class NewArticle extends Vue {
@@ -80,6 +119,9 @@
     options: { value: string; text: string; }[];
     reservedDate: string;
     contents: string;
+    output: string;
+    topicLink: string;
+    category: string;
 
     constructor() {
       super();
@@ -90,6 +132,14 @@
       this.reservedDate = "";
       this.options = options;
       this.contents = "";
+      this.output = "";
+      this.topicLink = "";
+      this.category = "";
+    }
+
+    onSaveHandler(output: string): void {
+      console.log(output);
+      this.output = output;
     }
 
   }
@@ -100,6 +150,61 @@
       .new-article__form-layout {
         float: left;
         width: calc(100% - 370px);
+        .input-form {
+          margin-bottom: 32px;
+
+          &.has-paragraph {
+            margin-bottom: 24px;
+          }
+
+          label {
+            position: relative;
+            display: block;
+            padding-left: 108px;
+
+            strong {
+              position: absolute;
+              left: 0;
+              top: 2px;
+              font-size: 22px;
+              font-weight: normal;
+              color: #0f0f0f;
+            }
+
+            input, select {
+              width: 100%;
+              height: 48px;
+              padding: 12px 18px;
+              border: solid 1px #0f0f0f;
+              font-size: 15px;
+              color: #0f0f0f;
+              -webkit-appearance: none;
+              -webkit-border-radius: 0px;
+              background: none;
+            }
+
+            p {
+              margin-top: 12px;
+              /deep/ a {
+                color: #1716ff
+              }
+            }
+          }
+
+          /deep/ .mx-datepicker {
+            width: 100%;
+
+            input {
+              width: 100%;
+              height: 48px;
+              border-radius: 0;
+              padding: 12px 18px;
+              border: solid 1px #0f0f0f;
+              font-size: 15px;
+              color: #0f0f0f;
+            }
+          }
+        }
       }
 
       .new-article__preview-layout {
