@@ -37,8 +37,7 @@
 
     @Watch("selectedDate")
     updateSelectedDate(value: Date) {
-      const formattedDate = format(value, "yyyy-MM-dd");
-      this.$emit("input", formattedDate);
+      this.$emit("input", value);
     }
 
   }
