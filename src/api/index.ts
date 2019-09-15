@@ -1,4 +1,5 @@
 import axios from "axios";
+import { OutputData } from "@editorjs/editorjs";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8080/api"
@@ -15,12 +16,18 @@ export async function fetchNewsList (params: IFetchNewsListParams): Promise<INew
 }
 
 interface ICreateNewsParams {
-
+  title: string;
+  date: string;
+  topicLink: string;
+  topic: string;
+  category: string;
+  contents: OutputData["blocks"];
+  link: string;
+  reservedDate: string;
 }
-export function createNews (params: ICreateNewsParams) {
-  const title = "test";
-  const content = "1111";
-  const categoryId = "1";
-  axiosInstance.post("/news", { title, content, categoryId })
-  console.log(params);
+
+export async function createNews (params: ICreateNewsParams) {
+  const { data } = await axiosInstance.post("/news", params);
+
+  return data;
 }

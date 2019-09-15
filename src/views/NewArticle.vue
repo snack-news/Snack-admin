@@ -50,9 +50,8 @@
         <div class="input-form has-paragraph">
           <label>
             <strong>본문</strong>
-            <editor v-model="contents" @onSaveHandler="onSaveHandler" />
+            <editor v-model="contents" />
             <p>제한은 없으나, 가이드를 참조해주세요. <a>가이드 바로가기</a></p>
-            {{ contents }}
           </label>
         </div>
 
@@ -100,6 +99,7 @@
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
   import { createNews } from "@/api";
   import { INullable } from "@/@types/utility";
+  import { OutputData } from "@editorjs/editorjs/types/data-formats/output-data";
 
   // @TODO 이후 데이터로 변경
   const options = [
@@ -120,40 +120,56 @@
     topic: string;
     options: { value: string; text: string; }[];
     reservedDate: INullable<Date>;
-    contents: string;
+    contents: OutputData["blocks"];
     output: string;
     topicLink: string;
     category: string;
 
     constructor() {
       super();
-      this.title = "제목";
+      this.title = "";
       this.date = null;
-      this.link = "ㅇㅇㅇ";
-      this.topic = "ㅇㅇㅇ";
+      this.link = "";
+      this.topic = "";
       this.reservedDate = null;
       this.options = options;
-      this.contents = "ㅇㅇㅇ";
-      this.output = "ㅇㅇㅇㅇ";
-      this.topicLink = "ㅇㅇㅇ";
-      this.category = "IT";
+      this.contents = [];
+      this.output = "";
+      this.topicLink = "";
+      this.category = "";
     }
     onSubmitHandler (): void {
-      createNews({});
       const { title, date, category, topicLink, topic, contents, link, reservedDate } = this;
-      if (!date || !reservedDate) {
+      if (!title) {
+        alert("제목을 입력해주세요.");
         return;
       }
-      if (date) {
-        console.log(date.toISOString());
-        createNews({ title, date: date.toISOString(), category, topicLink, topic, contents, link, reservedDate: reservedDate.toISOString() });
+      if (!date) {
+        alert("날짜를 입력해주세요.");
+        return;
       }
+      if (!topicLink) {
+        alert("목차 링크를 입력해주세요.");
+        return;
+      }
+      if (!topic) {
+        alert("토픽(회사)를 입력해주세요.");
+        return;
+      }
+      if (!contents) {
+        alert("내용을 입력해주세요.");
+        return;
+      }
+      if (!link) {
+        alert("참고 링크을 입력해주세요.");
+        return;
+      }
+      if (!reservedDate) {
+        alert("예약 업로드 날짜를 입력해주세요.");
+        return;
+      }
+      createNews({ title, date: date.toISOString(), category, topicLink, topic, contents, link, reservedDate: reservedDate.toISOString() });
     }
-    onSaveHandler(output: string): void {
-      console.log(output);
-      this.output = output;
-    }
-
   }
 </script>
 <style lang="scss" scoped>
