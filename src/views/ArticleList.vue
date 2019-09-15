@@ -13,7 +13,7 @@
       <router-link :to="{ name: 'ArticleForm' }">소식 작성</router-link>
     </div>
     <!-- // 버튼 영역 -->
-    <article-list-table />
+    <article-list-table :news="news"/>
     <b-pagination v-model="currentPage"
                   :total-rows="rows"
                   :per-page="perPage"
@@ -26,6 +26,8 @@
   import CustomTitle from "@/components/Utils/CustomTitle/CustomTitle.vue";
   import ArticleListTable from "@/components/ArticleListTable/ArticleListTable.vue";
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
+  import { fetchNewsList } from "@/api";
+  import { parseISO } from "@/utilities/parse-iso";
 
 
   Component.registerHooks([
@@ -39,20 +41,26 @@
     }
   })
   export default class ArticleList extends Vue {
+    news: INews[];
     currentPage: number;
     rows: number;
     perPage: number;
 
     constructor () {
       super();
+      this.news = [];
       this.currentPage = 1;
       this.rows = 100;
       this.perPage = 10;
     }
-    created () {
+    async created () {
       if (!this.$route.query.type) {
         this.$router.replace({ query: { type: 'news' }});
       }
+      const startDateTime = parseISO(new Date("2019/08/05/00:00:00"));
+      const endDateTime = parseISO(new Date("2019/08/12/11:59:59"));
+      const response = await fetchNewsList({ startDateTime, endDateTime });
+      this.news = response;
     }
 
   }

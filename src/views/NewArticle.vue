@@ -1,7 +1,7 @@
 <template>
   <div class="new-article">
     <custom-title title="에디터 어드민 - 소식 작성" />
-    <form>
+    <form @submit.prevent="onSubmitHandler">
       <!-- 입력 폼 레이아웃 -->
       <div class="new-article__form-layout">
         <div class="input-form has-paragraph">
@@ -98,6 +98,8 @@
   import CustomTitle from "@/components/Utils/CustomTitle/CustomTitle.vue";
   import Editor from "@/components/Editor.vue";
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
+  import { createNews } from "@/api";
+  import { INullable } from "@/@types/utility";
 
   // @TODO 이후 데이터로 변경
   const options = [
@@ -113,11 +115,11 @@
   })
   export default class NewArticle extends Vue {
     title: string;
-    date: string;
+    date: INullable<Date>;
     link: string;
     topic: string;
     options: { value: string; text: string; }[];
-    reservedDate: string;
+    reservedDate: INullable<Date>;
     contents: string;
     output: string;
     topicLink: string;
@@ -125,18 +127,28 @@
 
     constructor() {
       super();
-      this.title = "";
-      this.date = "";
-      this.link = "";
-      this.topic = "";
-      this.reservedDate = "";
+      this.title = "제목";
+      this.date = null;
+      this.link = "ㅇㅇㅇ";
+      this.topic = "ㅇㅇㅇ";
+      this.reservedDate = null;
       this.options = options;
-      this.contents = "";
-      this.output = "";
-      this.topicLink = "";
-      this.category = "";
+      this.contents = "ㅇㅇㅇ";
+      this.output = "ㅇㅇㅇㅇ";
+      this.topicLink = "ㅇㅇㅇ";
+      this.category = "IT";
     }
-
+    onSubmitHandler (): void {
+      createNews({});
+      const { title, date, category, topicLink, topic, contents, link, reservedDate } = this;
+      if (!date || !reservedDate) {
+        return;
+      }
+      if (date) {
+        console.log(date.toISOString());
+        createNews({ title, date: date.toISOString(), category, topicLink, topic, contents, link, reservedDate: reservedDate.toISOString() });
+      }
+    }
     onSaveHandler(output: string): void {
       console.log(output);
       this.output = output;
