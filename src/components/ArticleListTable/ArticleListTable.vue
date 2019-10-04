@@ -16,14 +16,14 @@
       </thead>
       <tbody>
         <tr v-for="item in news" :key="item.key">
-          <td>{{ item.key }}</td>
+          <td>{{ item.id }}</td>
           <td>TOP</td>
-          <td>카테고리</td>
-          <td>토픽(회사)</td>
+          <td>{{ item.category.title }}</td>
+          <td></td>
           <td>{{ item.title }}</td>
-          <td>{{ item.createdDate }}</td>
-          <td>수정일</td>
-          <td>업로드 예약일</td>
+          <td>{{ item.createAt }}</td>
+          <td>{{ item.modifiedAt }}</td>
+          <td>{{ item.publishAt }}</td>
           <td>
             <button type="button">삭제</button>
           </td>
@@ -37,10 +37,11 @@
 </template>
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator';
+  import { IContent } from "@/@types/models/News";
 
   @Component
   export default class ArticleListTable extends Vue {
-    @Prop() news!: INews[];
+    @Prop() news!: IContent[];
     constructor () {
       super();
     }
