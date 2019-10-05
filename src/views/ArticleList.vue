@@ -15,20 +15,22 @@
     <!-- // 버튼 영역 -->
     <article-list-table :news="news"/>
     <b-pagination v-model="currentPage"
-                  :total-rows="rows"
+                  @change="onChange"
+                  :total-rows="totalPage"
                   :per-page="perPage"
                   :align="'center'"
                   aria-controls="my-table" />
   </div>
 </template>
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
+  import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
   import CustomTitle from "@/components/Utils/CustomTitle/CustomTitle.vue";
   import ArticleListTable from "@/components/ArticleListTable/ArticleListTable.vue";
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
   import { fetchNewsList } from "@/api";
-  import { parseISO } from "@/utilities/parse-iso";
-
+  import { IContent } from "@/@types/models/News";
+  import { Route } from "vue-router";
+  import { Next } from "@/@types/library/vue-router";
 
   Component.registerHooks([
     'beforeRouteEnter',
@@ -41,28 +43,50 @@
     }
   })
   export default class ArticleList extends Vue {
-    news: INews[];
-    currentPage: number;
-    rows: number;
+    news: IContent[];
+    currentPage: string;
+    totalPage: number;
     perPage: number;
+    @Prop() page!: string;
+    @Prop() type!: string;
 
     constructor () {
       super();
       this.news = [];
-      this.currentPage = 1;
-      this.rows = 100;
+      this.currentPage = this.page;
+      this.totalPage = 0;
       this.perPage = 10;
     }
-    async created () {
-      if (!this.$route.query.type) {
-        this.$router.replace({ query: { type: 'news' }});
-      }
-      const startDateTime = parseISO(new Date("2019/08/05/00:00:00"));
-      const endDateTime = parseISO(new Date("2019/08/12/11:59:59"));
-      const response = await fetchNewsList({ startDateTime, endDateTime });
-      this.news = response;
+    beforeRouteEnter (to: Route, from: Route, next: Next) {
+      next(async vm => {
+        const page = (<string>vm.$route.query.page);
+        const type = (<string>vm.$route.query.type);
+        const { content, totalElements, size } = await fetchNewsList({ page, type });
+        // @ts-ignore
+        vm.news = content;
+        // @ts-ignore
+        vm.totalPage = 100;
+      })
     }
 
+    @Watch('$route')
+    async onChangeRoute (route: Route) {
+      const page = (<string>route.query.page);
+      const type = (<string>route.query.type);
+      const { content, totalElements } = await fetchNewsList({ page, type });
+
+      this.news = content;
+      this.totalPage = totalElements;
+    }
+    @Watch('currentPage')
+    onChangeCurrentPage (page: number) {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          page: page.toString()
+        }
+      });
+    }
   }
 </script>
 <style lang="scss" scoped>

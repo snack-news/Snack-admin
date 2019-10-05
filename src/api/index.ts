@@ -1,18 +1,38 @@
 import axios from "axios";
 import { OutputData } from "@editorjs/editorjs";
+import { IContent, IPageable } from "@/@types/models/News";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080/api"
+  baseURL: "http://localhost:8080/admin/api"
 });
 
-interface IFetchNewsListParams {
-  startDateTime: string;
-  endDateTime: string;
+interface INewsListResponse {
+  content: IContent[];
+  empty: boolean;
+  first: boolean;
+  last: boolean;
+  number: number;
+  numberOfElements: number;
+  pageable: IPageable;
+  size: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  totalElements: number;
+  totalPages: number;
 }
-export async function fetchNewsList (params: IFetchNewsListParams): Promise<INews[]> {
-  const { data } = await axiosInstance.get<INews[]>("/news", { params });
 
-  return data;
+interface IFetchNewsListParams {
+  page: string;
+  type: string;
+}
+
+export async function fetchNewsList ({ page }: IFetchNewsListParams): Promise<INewsListResponse> {
+  const { data } = await axiosInstance.get<{ data: INewsListResponse }>(`/news/${page}`);
+
+  return data.data;
 }
 
 interface ICreateNewsParams {
