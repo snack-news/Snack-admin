@@ -1,9 +1,10 @@
 export function parseISO (targetDate: Date) {
   const year = targetDate.getUTCFullYear();
-  const month = pad(targetDate.getUTCMonth());
-  const date = pad(targetDate.getUTCDate());
-  const hours = pad(targetDate.getUTCHours());
-  const minutes = pad(targetDate.getUTCMinutes());
+  const month = pad(targetDate.getMonth() + 1);
+  const date = pad(targetDate.getDate());
+  const hours = pad(targetDate.getHours());
+  const minutes = pad(targetDate.getMinutes());
+  console.log(year, month, date);
 
   return removeEmptyArea(`
     ${year}-
