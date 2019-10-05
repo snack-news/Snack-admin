@@ -21,7 +21,7 @@
           <td>{{ item.category.title }}</td>
           <td></td>
           <td>{{ item.title }}</td>
-          <td>{{ item.createAt }}</td>
+          <td v-date-format>{{ item.createAt }}</td>
           <td>{{ item.modifiedAt }}</td>
           <td>{{ item.publishAt }}</td>
           <td>
