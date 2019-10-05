@@ -3,9 +3,9 @@
     <custom-title title="에디터 어드민" />
     <!-- 탭 영역 -->
     <ul>
-      <li><router-link :to="{ query: { type: 'news' }}">news(소식)</router-link></li>
-      <li><router-link :to="{ query: { type: 'sub-news' }}">news(관련 소식)</router-link></li>
-      <li><router-link  :to="{ query: { type: 'picks' }}">picks(아티클)</router-link></li>
+      <li><router-link :to="getRouteLink('news')">news(소식)</router-link></li>
+      <li><router-link :to="getRouteLink('sub-news')">news(관련 소식)</router-link></li>
+      <li><router-link  :to="getRouteLink('picks')">picks(아티클)</router-link></li>
     </ul>
     <!-- // 탭 영역 -->
     <!-- 버튼 영역 -->
@@ -15,7 +15,6 @@
     <!-- // 버튼 영역 -->
     <article-list-table :news="news"/>
     <b-pagination v-model="currentPage"
-                  @change="onChange"
                   :total-rows="totalPage"
                   :per-page="perPage"
                   :align="'center'"
@@ -86,6 +85,14 @@
           page: page.toString()
         }
       });
+    }
+    getRouteLink (type: string) {
+      return {
+        query: {
+          ...this.$route.query,
+          type,
+        }
+      }
     }
   }
 </script>
