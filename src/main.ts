@@ -6,7 +6,7 @@ import store from './store'
 import CustomPlugin from "./modules/plugin";
 
 Vue.use(CustomPlugin);
-
+console.log("배포가 되었습니다.");
 /**
  * @description Use third party library
  */
