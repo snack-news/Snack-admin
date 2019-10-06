@@ -54,8 +54,7 @@ interface ICreateNewsOptionalParams {
 
 export async function createNews (params: ICreateNewsParams): Promise<IServiceResponse<null>> {
   try {
-    const { data } = await axiosInstance.post("/admin/api/news", params);
-
+    await axiosInstance.post("/admin/api/news", params);
     return {
       data: null,
       isSuccess: true

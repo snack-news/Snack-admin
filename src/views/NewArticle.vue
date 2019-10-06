@@ -66,11 +66,12 @@
         <div class="input-form has-paragraph">
           <label>
             <strong>예약업로드</strong>
-            <date-picker v-model="reservedDate" />
+            <date-picker v-model="reservedDate" :type="'datetime'"/>
             <p>설정한 날짜에 업로드 됩니다.</p>
           </label>
         </div>
       </div>
+      <time-picker />
       <!-- // 입력 폼 레이아웃 -->
       <!-- 미리보기 레이아웃 -->
       <div class="new-article__preview-layout">

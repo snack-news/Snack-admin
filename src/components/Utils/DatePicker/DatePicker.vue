@@ -1,14 +1,14 @@
 <template>
   <div>
     <vue-date-picker v-model="selectedDate"
-                     :lang="language" />
+                     :lang="language"
+                     :type="type"
+                     :time-picker-options="timePickerOptions"/>
   </div>
 </template>
 <script lang="ts">
   import { Component, Vue, Watch, Prop } from "vue-property-decorator";
   import VueDatePicker from "vue2-datepicker";
-  import Datepicker from "vue2-datepicker";
-  import format from "date-fns/format";
 
   @Component({
     components: {
@@ -17,9 +17,15 @@
   })
   export default class DatePicker extends Vue {
     @Prop({ default: "yyyy-MM-dd" }) format!: string;
+    @Prop({ default: "" }) type!: "" | "datetime";
 
     selectedDate: string;
-    language: Datepicker.Lang;
+    language: VueDatePicker.Lang;
+    timePickerOptions: {
+      start: string;
+      step: string;
+      end: string;
+    };
 
     constructor() {
       super();
@@ -32,11 +38,17 @@
           date: "날짜를 선택해주세요.",
           dateRange: "Select Date Range"
         }
-      }
+      };
+      this.timePickerOptions = {
+        start: '00:00',
+        step: '00:30',
+        end: '23:30'
+      };
     }
 
     @Watch("selectedDate")
     updateSelectedDate(value: Date) {
+      console.log(value);
       this.$emit("input", value);
     }
 
