@@ -3,7 +3,7 @@ import { ICategory, IContent, IPageable } from "@/@types/models/News";
 import { IServiceResponse } from "@/@types/utility/ajax";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080"
+  baseURL: process.env.VUE_APP_API_URL
 });
 
 interface INewsListResponse {
