@@ -22,8 +22,8 @@
           <td></td>
           <td>{{ item.title }}</td>
           <td v-date-format>{{ item.createAt }}</td>
-          <td>{{ item.modifiedAt }}</td>
-          <td>{{ item.publishAt }}</td>
+          <td v-date-format>{{ item.modifiedAt }}</td>
+          <td v-date-format>{{ item.publishAt }}</td>
           <td>
             <button type="button">삭제</button>
           </td>
