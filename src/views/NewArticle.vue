@@ -23,7 +23,7 @@
         <div class="input-form">
           <label>
             <strong>카테고리</strong>
-            <select v-model="category">
+            <select v-model="categoryId">
               <option :key="option.value" v-for="option in options" :value="option.value">
                 {{ option.text }}
               </option>
@@ -50,7 +50,7 @@
         <div class="input-form has-paragraph">
           <label>
             <strong>본문</strong>
-            <editor v-model="contents" />
+            <editor v-model="content" />
             <p>제한은 없으나, 가이드를 참조해주세요. <a>가이드 바로가기</a></p>
           </label>
         </div>
@@ -97,14 +97,10 @@
   import CustomTitle from "@/components/Utils/CustomTitle/CustomTitle.vue";
   import Editor from "@/components/Editor.vue";
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
-  import { createNews } from "@/api";
+  import { createNews, fetchCategoryList } from "@/api";
   import { INullable } from "@/@types/utility";
   import { OutputData } from "@editorjs/editorjs/types/data-formats/output-data";
 
-  // @TODO 이후 데이터로 변경
-  const options = [
-    { value: "IT", text: "IT" }
-  ];
   @Component({
     components: {
       CustomButton,
@@ -118,12 +114,12 @@
     date: INullable<Date>;
     link: string;
     topic: string;
-    options: { value: string; text: string; }[];
+    options: { value: number; text: string; }[];
     reservedDate: INullable<Date>;
-    contents: OutputData["blocks"];
+    content: OutputData["blocks"];
     output: string;
     topicLink: string;
-    category: string;
+    categoryId: number;
 
     constructor() {
       super();
@@ -132,43 +128,47 @@
       this.link = "";
       this.topic = "";
       this.reservedDate = null;
-      this.options = options;
-      this.contents = [];
+      this.options = [];
+      this.content = [];
       this.output = "";
       this.topicLink = "";
-      this.category = "";
+      this.categoryId = 0;
     }
-    onSubmitHandler (): void {
-      const { title, date, category, topicLink, topic, contents, link, reservedDate } = this;
-      if (!title) {
-        alert("제목을 입력해주세요.");
-        return;
+    async created () {
+      const response = await fetchCategoryList();
+      if (response.isSuccess) {
+        this.options = response.data.map(({ id, title }) => ({
+          value: id,
+          text: title
+        }));
+        this.categoryId = this.options[0].value;
+      } else {
+        alert(response.message);
       }
-      if (!date) {
-        alert("날짜를 입력해주세요.");
-        return;
+    }
+    validateMandatoryFields (): void {
+      if (!this.title) {
+        return alert("제목을 입력해주세요.");
       }
-      if (!topicLink) {
-        alert("목차 링크를 입력해주세요.");
-        return;
+      if (!this.content) {
+        return alert("내용을 입력해주세요.");
       }
-      if (!topic) {
-        alert("토픽(회사)를 입력해주세요.");
-        return;
+      if (!this.categoryId) {
+        return alert("카테고리를 선택해주세요.");
       }
-      if (!contents) {
-        alert("내용을 입력해주세요.");
-        return;
+    }
+    async onSubmitHandler (): Promise<void> {
+      this.validateMandatoryFields();
+      const { isSuccess } =await createNews({
+        title: this.title,
+        categoryId: this.categoryId,
+        content: JSON.stringify(this.content)
+      });
+      if (isSuccess) {
+        alert("성공");
+      } else {
+        alert("실패 ");
       }
-      if (!link) {
-        alert("참고 링크을 입력해주세요.");
-        return;
-      }
-      if (!reservedDate) {
-        alert("예약 업로드 날짜를 입력해주세요.");
-        return;
-      }
-      createNews({ title, date: date.toISOString(), category, topicLink, topic, contents, link, reservedDate: reservedDate.toISOString() });
     }
   }
 </script>

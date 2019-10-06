@@ -7,16 +7,18 @@ export interface IContent {
   title: string;
   content: string;
   link: INullable<string>;
-  category: {
-    id: number;
-    title: string;
-  };
+  category: ICategory;
   topics: ITopic[];
   tags: {
     id: number;
     title: string
   }[];
   publishAt: INullable<string>;
+}
+
+export interface ICategory {
+  id: number;
+  title: string;
 }
 
 export interface ITopic {

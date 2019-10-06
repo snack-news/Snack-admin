@@ -1,9 +1,9 @@
 import axios from "axios";
-import { OutputData } from "@editorjs/editorjs";
-import { IContent, IPageable } from "@/@types/models/News";
+import { ICategory, IContent, IPageable } from "@/@types/models/News";
+import { IServiceResponse } from "@/@types/utility/ajax";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080/admin/api"
+  baseURL: "http://localhost:8080"
 });
 
 interface INewsListResponse {
@@ -30,24 +30,58 @@ interface IFetchNewsListParams {
 }
 
 export async function fetchNewsList ({ page }: IFetchNewsListParams): Promise<INewsListResponse> {
-  const { data } = await axiosInstance.get<{ data: INewsListResponse }>(`/news/${page}`);
+  const { data } = await axiosInstance.get<{ data: INewsListResponse }>(`/admin/api/news/${page}`);
 
   return data.data;
 }
 
-interface ICreateNewsParams {
+type ICreateNewsParams = ICreateNewsMandatoryParams
+  & Partial<ICreateNewsOptionalParams>;
+
+interface ICreateNewsMandatoryParams {
   title: string;
+  categoryId: number;
+  content: string;
+}
+
+interface ICreateNewsOptionalParams {
   date: string;
   topicLink: string;
   topic: string;
-  category: string;
-  contents: OutputData["blocks"];
   link: string;
   reservedDate: string;
 }
 
-export async function createNews (params: ICreateNewsParams) {
-  const { data } = await axiosInstance.post("/news", params);
+export async function createNews (params: ICreateNewsParams): Promise<IServiceResponse<null>> {
+  try {
+    const { data } = await axiosInstance.post("/admin/api/news", params);
 
-  return data;
+    return {
+      data: null,
+      isSuccess: true
+    };
+  } catch (e) {
+    return {
+      data: null,
+      isSuccess: false,
+      message: "잠시 후 다시 시도하세요. (E0001)"
+    };
+  }
+}
+
+export async function fetchCategoryList (): Promise<IServiceResponse<ICategory[]>> {
+  try {
+    const { data } = await axiosInstance.get<{ data: ICategory[] }>("/api/category");
+
+    return {
+      data: data.data,
+      isSuccess: true,
+    }
+  } catch (e) {
+    return {
+      data: null,
+      isSuccess: false,
+      message: "잠시 후 다시 시도하세요.(E0002)"
+    };
+  }
 }
