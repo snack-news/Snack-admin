@@ -10,10 +10,6 @@
   export default class CustomTitle extends Vue {
     @Prop(({ default: "h1" })) tag!: string;
     @Prop() title!: string;
-    mounted () {
-      console.log(this.tag);
-      console.log(this.title);
-    }
   }
 </script>
 <style lang="scss" scoped>
