@@ -8,10 +8,11 @@ import ArticleList from '@/views/ArticleList.vue'
 
 import HeaderComponent from '@/components/Layouts/HeaderComponent.vue'
 import { Next } from "@/@types/library/vue-router";
+import navigationGuard from "./navigation-guard";
 
-Vue.use(Router)
+Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -21,6 +22,9 @@ export default new Router({
       components: {
         header: HeaderComponent,
         default: Home
+      },
+      meta: {
+        isRequiredAuth: false
       }
     },
     {
@@ -28,12 +32,16 @@ export default new Router({
       name: 'Signin',
       components: {
         default: Signin
+      },
+      meta: {
+        isRequiredAuth: false
       }
     },
     {
       path: '/articles',
       name: 'ArticleList',
       components: {
+        header: HeaderComponent,
         default: ArticleList
       },
       props: {
@@ -53,9 +61,11 @@ export default new Router({
             }
           });
         } else {
-          console.log(to);
           next();
         }
+      },
+      meta: {
+        isRequiredAuth: true
       }
     },
     {
@@ -63,7 +73,14 @@ export default new Router({
       name: 'ArticleForm',
       components: {
         default: ArticleForm
+      },
+      meta: {
+        isRequiredAuth: true
       }
     },
   ]
-})
+});
+
+router.beforeEach(navigationGuard);
+
+export default router;
