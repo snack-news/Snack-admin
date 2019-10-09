@@ -4,4 +4,8 @@ interface IRootState {
 
 interface IAuthState {
   isUser: boolean;
+  displayName: string;
+  email: string;
+  emailVerified: boolean;
+  photoURL: string;
 }
