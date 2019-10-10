@@ -1,17 +1,21 @@
 import { Route } from "vue-router";
 import { Next } from "@/@types/library/vue-router";
 import store from "@/store";
+import { checkPermission } from "@/api/auth";
 
 export default async function (to: Route, from: Route, next: Next) {
   const isRequiredAuthRouter = to.matched.some(({ meta }) => meta.isRequiredAuth);
   if (isRequiredAuthRouter) {
-    const isExistUserInformation = await store.dispatch('fetchUserInformation');
-    if (!isExistUserInformation) {
-      next({ name: "Signin" });
-    } else {
-      next();
+    const userInformation = await store.dispatch('auth/fetchUserInformation');
+    if (userInformation) {
+      const isAuthorization = await checkPermission(userInformation.uid);
+      if (isAuthorization) {
+        return next();
+      }
     }
+
+    return next({ name: "Signin" });
   }
 
-  next();
+  return next();
 }
