@@ -1,3 +1,8 @@
 export default <IAuthState> {
-  isUser: false
+  isUser: false,
+  uid: "",
+  displayName: "",
+  email: "",
+  emailVerified: false,
+  photoURL: ""
 }

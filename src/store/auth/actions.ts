@@ -1,20 +1,28 @@
 import { ActionContext, ActionTree } from "vuex";
-import { whoAmI } from "@/api/auth";
+import { signoutService, whoAmI } from "@/api/auth";
+import { INullable } from "@/@types/utility";
+import { User } from "firebase";
 
 type AuthContext = ActionContext<IAuthState, IRootState>;
 
-async function fetchUserInformation (context: AuthContext): Promise<boolean> {
+async function fetchUserInformation ({ commit }: AuthContext): Promise<INullable<User>> {
   const userInformation = await whoAmI();
   if (userInformation) {
-    const { displayName, email, emailVerified, photoURL } = userInformation;
-    context.commit('setUserInformation', { displayName, email, emailVerified, photoURL });
+    const { displayName, email, emailVerified, photoURL, uid } = userInformation;
+    commit('setUserInformation', { uid, displayName, email, emailVerified, photoURL });
 
-    return true;
+    return userInformation;
   }
 
-  return false;
+  return null;
+}
+
+async function signout ({ commit }: AuthContext): Promise<void> {
+  await signoutService();
+  commit('destroyUserInformation');
 }
 
 export default <ActionTree<IAuthState, IRootState>> {
+  signout,
   fetchUserInformation
 }

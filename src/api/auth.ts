@@ -1,5 +1,5 @@
 import firebase, { User } from "firebase";
-import firebaseAuthService from "./initializer/firebase";
+import firebaseAuthService, { fireStore } from "./initializer/firebase";
 import { INullable } from "@/@types/utility";
 
 export async function googleAuth () {
@@ -25,25 +25,23 @@ export async function whoAmI (): Promise<INullable<User>> {
   return currentUser;
 }
 
-export async function signout () {
-  const test = await firebaseAuthService.auth().signOut();
+export async function signoutService () {
+  await firebaseAuthService.auth().signOut();
 }
 
-export async function watchAuth () {
-  firebaseAuthService.auth().onAuthStateChanged(function (user) {
-    if (user) {
-      // User is signed in.
-      var displayName = user.displayName;
-      var email = user.email;
-      var emailVerified = user.emailVerified;
-      var photoURL = user.photoURL;
-      var isAnonymous = user.isAnonymous;
-      var uid = user.uid;
-      var providerData = user.providerData;
-      // ...
-    } else {
-      // User is signed out.
-      // ...
-    }
-  });
+interface IPermissionInformation {
+  isAdmin: true;
+  lastLogin: string;
+}
+
+export async function checkPermission (uid: string): Promise<boolean> {
+  try {
+    const postRef = fireStore.ref(`users/admin/${uid}`);
+    await postRef.once("value");
+
+    return true;
+  } catch (e) {
+    console.log("[Logs:checkPermission]", e);
+    return false;
+  }
 }
