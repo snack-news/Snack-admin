@@ -4,6 +4,8 @@
       <h1>회원가입</h1>
       <p>스낵 뉴스 어드민은 스낵 뉴스의 뉴스를 관리하기 위한 플랫폼입니다.</p>
       <signin-form @onSubmit="onSubmitHandler"/>
+      <button @click="onClickGoogleAuthHandler">구글로 로그인하기</button> <br />
+      <button @click="onClickGoogleAuthHandler2">인증 </button> <br />
     </div>
   </div>
 </template>
@@ -11,6 +13,7 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator';
   import SigninForm from '@/components/SigninForm/SigninForm.vue'
+  import { googleAuth, whoAmI } from "@/api/auth";
 
   @Component({
     components: {
@@ -22,6 +25,14 @@
     constructor () {
       super();
       this.output = '';
+    }
+    onClickGoogleAuthHandler (): void {
+      googleAuth().then(res => {
+
+      })
+    }
+    onClickGoogleAuthHandler2 (): void {
+      whoAmI()
     }
     onSubmitHandler (payload: { userId: string; password: string; }): void {
       console.log(payload);
