@@ -16,6 +16,14 @@ export default async function (to: Route, from: Route, next: Next) {
 
     return next({ name: "Signin" });
   }
+  // @TODO 이후 중복 로직 제거
+  const userInformation = await store.dispatch('auth/fetchUserInformation');
+  if (userInformation) {
+    const isAuthorization = await checkPermission(userInformation.uid);
+    if (isAuthorization) {
+      return next({ name: "ArticleList" });
+    }
+  }
 
   return next();
 }

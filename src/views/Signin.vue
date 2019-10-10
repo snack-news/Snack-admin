@@ -4,8 +4,7 @@
       <h1>회원가입</h1>
       <p>스낵 뉴스 어드민은 스낵 뉴스의 뉴스를 관리하기 위한 플랫폼입니다.</p>
       <signin-form @onSubmit="onSubmitHandler"/>
-      <button @click="onClickGoogleAuthHandler">구글로 로그인하기</button> <br />
-      <button @click="onClickGoogleAuthHandler2">인증 </button> <br />
+      <button class="btn btn-secondary btn-lg btn-block" @click="onClickGoogleAuthHandler">구글로 로그인하기</button> <br />
     </div>
   </div>
 </template>
@@ -14,6 +13,7 @@
   import { Component, Vue } from 'vue-property-decorator';
   import SigninForm from '@/components/SigninForm/SigninForm.vue'
   import { googleAuth, whoAmI } from "@/api/auth";
+  import firebaseAuthService from "@/api/initializer/firebase"
 
   @Component({
     components: {
@@ -26,16 +26,25 @@
       super();
       this.output = '';
     }
+    created () {
+      let isCompleted = false;
+      // @TODO 별도의 Class 로 분리
+      firebaseAuthService.auth().onAuthStateChanged((user) => {
+        if (user && !isCompleted) {
+          console.log("created =>", user);
+          this.$snotify.success(`${user.displayName} 님, 환영합니다.`);
+          this.$router.replace({ name: "ArticleList" });
+          isCompleted = true;
+        }
+      });
+    }
     onClickGoogleAuthHandler (): void {
       googleAuth().then(res => {
 
       })
     }
-    onClickGoogleAuthHandler2 (): void {
-      whoAmI()
-    }
     onSubmitHandler (payload: { userId: string; password: string; }): void {
-      console.log(payload);
+      alert("이메일을 통한 로그인은 현재 지원하지 않습니다.")
     }
   }
 </script>
@@ -56,6 +65,9 @@
       }
       p {
         margin-bottom: 20px;
+      }
+      /deep/ .btn{
+        margin-top: 20px;
       }
     }
   }

@@ -2,13 +2,16 @@
   <div id="app">
     <router-view name="header"/>
     <router-view/>
+    <vue-snotify />
   </div>
 </template>
 
 <style lang="scss">
   @import '~bootstrap/dist/css/bootstrap.css';
   @import '~bootstrap-vue/dist/bootstrap-vue.css';
+  @import '~vue-snotify/styles/simple.scss';
   @import './styles/index.scss';
+
 
   html, body {
     height: 100%;
