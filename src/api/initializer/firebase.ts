@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import * as firebase from 'firebase/app';
 
 const config = {
   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
