@@ -5,7 +5,7 @@
       <p>스낵 뉴스 어드민은 스낵 뉴스의 뉴스를 관리하기 위한 플랫폼입니다. <br />회원 가입 후, <strong>관리자의 승인 이후 사용이 가능</strong>합니다.</p>
       <signup-form @onSubmit="onSubmitHandler"/>
       <div class="signup__wrapper--go-to-signin">
-        <router-link :to="{ name: 'Signup' }">혹시 회원이신가요?</router-link>
+        <router-link :to="{ name: 'Signin' }">혹시 회원이신가요?</router-link>
       </div>
     </div>
   </div>
