@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Router, { Route } from 'vue-router'
 
-import Home from '@/views/Home.vue'
 import Signin from '@/views/Signin.vue'
 import ArticleForm from '@/views/NewArticle.vue'
 import ArticleList from '@/views/ArticleList.vue'
 
 import HeaderComponent from '@/components/Layouts/HeaderComponent.vue'
 import { Next } from "@/@types/library/vue-router";
-import navigationGuard from "./navigation-guard";
+
+import navigationGuard from "./middleware/navigation-guard";
 
 Vue.use(Router);
 
@@ -19,9 +19,8 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      components: {
-        header: HeaderComponent,
-        default: Home
+      redirect: {
+        name: 'Signin'
       },
       meta: {
         isRequiredAuth: false
