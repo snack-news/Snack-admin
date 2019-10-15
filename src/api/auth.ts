@@ -1,18 +1,30 @@
 import firebase, { User } from "firebase";
 import firebaseAuthService, { fireStore } from "./initializer/firebase";
 import { INullable } from "@/@types/utility";
+import { IServiceResponse } from "@/@types/utility/ajax";
 
-export async function googleAuth () {
+export async function googleAuth (): Promise<IServiceResponse<firebase.User>> {
   try {
     const googleProvider = new firebase.auth.GoogleAuthProvider();
-    const { credential } = await firebaseAuthService.auth().signInWithPopup(googleProvider);
-    if (credential) {
-      alert ("인증 완료");
+    const { credential, user } = await firebaseAuthService.auth().signInWithPopup(googleProvider);
+    if (credential && user) {
+      return {
+        isSuccess: true,
+        data: user,
+      };
     } else {
-      alert("인증 실패");
+      return  {
+        isSuccess: false,
+        data: null,
+        message: "인증 실패하였습니다."
+      };
     }
   } catch (e) {
-    alert(e.message);
+    return {
+      isSuccess: false,
+      data: null,
+      message: e.message
+    }
   }
 }
 
