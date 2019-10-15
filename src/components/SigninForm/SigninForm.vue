@@ -1,11 +1,11 @@
 <template>
   <div class="signin-form">
     <b-form @submit.prevent="onSubmitHandler">
-      <b-form-group id="userId"
+      <b-form-group id="emailId"
                     label="아이디"
-                    label-for="userId">
-        <b-form-input id="userId"
-                      v-model="userId"
+                    label-for="emailId">
+        <b-form-input id="emailId"
+                      v-model="emailId"
                       type="text"
                       required
                       placeholder="아이디를 입력하세요."></b-form-input>
@@ -35,16 +35,16 @@
 
   @Component
   export default class SigninForm extends Vue {
-    userId: string;
+    emailId: string;
     password: string;
     constructor () {
       super();
-      this.userId = '';
+      this.emailId = '';
       this.password = '';
     }
     onSubmitHandler () {
-      const { userId, password } = this;
-      this.$emit('onSubmit', { userId, password });
+      const { emailId, password } = this;
+      this.$emit('onSubmit', { emailId, password });
     }
   }
 </script>
