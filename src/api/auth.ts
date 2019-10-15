@@ -3,6 +3,66 @@ import firebaseAuthService, { fireStore } from "./initializer/firebase";
 import { INullable } from "@/@types/utility";
 import { IServiceResponse } from "@/@types/utility/ajax";
 
+interface ISignupWithEmailRequiredParams {
+  emailId: string;
+  password: string;
+}
+
+export async function signupWithEmail ({ emailId, password }: ISignupWithEmailRequiredParams): Promise<IServiceResponse<firebase.User>> {
+  try {
+    const { user } = await firebaseAuthService.auth().createUserWithEmailAndPassword(emailId, password);
+    if (user) {
+      return {
+        isSuccess: true,
+        data: user
+      }
+    } else {
+      return {
+        isSuccess: false,
+        data: null,
+        message: "인증이 실패했습니다. 잠시 후 다시 시도하세요. (A0001)"
+      }
+    }
+  } catch (e) {
+    console.log("[Error Logs] signupWithEmail =>", e);
+    return {
+      isSuccess: false,
+      data: null,
+      message: e.message
+    };
+  }
+}
+
+interface IEmailAuthRequiredParams {
+  emailId: string;
+  password: string;
+}
+
+export async function emailAuth ({ emailId, password }: IEmailAuthRequiredParams): Promise<IServiceResponse<firebase.User>> {
+  try {
+    const { user } = await firebaseAuthService.auth().signInWithEmailAndPassword(emailId, password);
+    if (user) {
+      return {
+        isSuccess: true,
+        data: user
+      }
+    } else {
+      return {
+        isSuccess: false,
+        data: null,
+        message: "로그인이 실패했습니다. 잠시 후 다시 시도하세요.(A0003)"
+      }
+    }
+  } catch (e) {
+    console.log("[Error Logs] emailAuth =>", e);
+    return {
+      isSuccess: false,
+      data: null,
+      message: e.message
+    };
+  }
+}
+
 export async function googleAuth (): Promise<IServiceResponse<firebase.User>> {
   try {
     const googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -16,7 +76,7 @@ export async function googleAuth (): Promise<IServiceResponse<firebase.User>> {
       return  {
         isSuccess: false,
         data: null,
-        message: "인증 실패하였습니다."
+        message: "인증이 실패했습니다. 잠시 후 다시 시도하세요. (A0002)"
       };
     }
   } catch (e) {

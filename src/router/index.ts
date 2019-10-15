@@ -4,11 +4,13 @@ import Router, { Route } from 'vue-router'
 import Signin from '@/views/Signin.vue'
 import ArticleForm from '@/views/NewArticle.vue'
 import ArticleList from '@/views/ArticleList.vue'
+import Signup from "@/views/Signup.vue"
 
 import HeaderComponent from '@/components/Layouts/HeaderComponent.vue'
 import { Next } from "@/@types/library/vue-router";
 
 import navigationGuard from "./middleware/navigation-guard";
+
 
 Vue.use(Router);
 
@@ -31,6 +33,16 @@ const router = new Router({
       name: 'Signin',
       components: {
         default: Signin
+      },
+      meta: {
+        isRequiredAuth: false
+      }
+    },
+    {
+      path: '/signup',
+      name: 'Signup',
+      components: {
+        default: Signup
       },
       meta: {
         isRequiredAuth: false
