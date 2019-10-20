@@ -1,7 +1,7 @@
 <template>
   <div class="new-article">
     <custom-title title="에디터 어드민 - 소식 작성" />
-    <form @submit.prevent="onSubmitHandler">
+    <form @submit.prevent="onSubmitHandler" @reset.prevent="onCancelHandler">
       <!-- 입력 폼 레이아웃 -->
       <div class="new-article__form-layout">
         <div class="input-form has-paragraph">
@@ -84,7 +84,7 @@
         <custom-button :type="'submit'" :size="'l'">
           작성 완료
         </custom-button>
-        <custom-button :type="'cancel'" :size="'l'" :color="'type03'">
+        <custom-button :type="'reset'" :size="'l'" :color="'type03'">
           취소
         </custom-button>
       </div>
@@ -169,6 +169,12 @@
         alert("성공");
       } else {
         alert("실패 ");
+      }
+    }
+    async onCancelHandler (): Promise<void> {
+      const isConfirmedCancel = confirm("작성을 취소하시겠습니까? 작성을 취소하시면 기존 작성 중이던 내용은 모두 사라집니다.");
+      if (isConfirmedCancel) {
+        this.$router.push({ name: "ArticleList" });
       }
     }
   }
