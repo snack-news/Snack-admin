@@ -25,7 +25,7 @@
           <td v-date-format>{{ item.modifiedAt }}</td>
           <td v-date-format>{{ item.publishAt }}</td>
           <td>
-            <button type="button">삭제</button>
+            <button type="button" @click="() => onDeleteHandler(item.id)">삭제</button>
           </td>
         </tr>
         <tr v-if="news.length === 0">
@@ -44,6 +44,9 @@
     @Prop() news!: IContent[];
     constructor () {
       super();
+    }
+    onDeleteHandler (id: string) {
+      this.$emit('onDeleteHandler', id);
     }
 
   }

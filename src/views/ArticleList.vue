@@ -5,7 +5,7 @@
     <ul>
       <li><router-link :to="getRouteLink('news')">news(소식)</router-link></li>
       <li><router-link :to="getRouteLink('sub-news')">news(관련 소식)</router-link></li>
-      <li><router-link  :to="getRouteLink('picks')">picks(아티클)</router-link></li>
+      <li><router-link :to="getRouteLink('picks')">picks(아티클)</router-link></li>
     </ul>
     <!-- // 탭 영역 -->
     <!-- 버튼 영역 -->
@@ -13,7 +13,8 @@
       <router-link :to="{ name: 'ArticleForm' }">소식 작성</router-link>
     </div>
     <!-- // 버튼 영역 -->
-    <article-list-table :news="news"/>
+    <article-list-table :news="news"
+                        @onDeleteHandler="onDeleteHandler"/>
     <b-pagination v-model="currentPage"
                   :total-rows="totalPage"
                   :per-page="perPage"
@@ -93,6 +94,9 @@
           type,
         }
       }
+    }
+    onDeleteHandler (id: string) {
+      alert("현재 삭제 기능은 지원하지 않습니다.");
     }
   }
 </script>
