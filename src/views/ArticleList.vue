@@ -61,11 +61,11 @@
       next(async vm => {
         const page = (<string>vm.$route.query.page);
         const type = (<string>vm.$route.query.type);
-        const { content, totalElements, size } = await fetchNewsList({ page, type });
+        const { content, totalElements } = await fetchNewsList({ page, type });
         // @ts-ignore
         vm.news = content;
         // @ts-ignore
-        vm.totalPage = 100;
+        vm.totalPage = totalElements;
       })
     }
 
