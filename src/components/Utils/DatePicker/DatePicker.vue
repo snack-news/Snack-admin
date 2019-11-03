@@ -3,7 +3,8 @@
     <vue-date-picker v-model="selectedDate"
                      :lang="language"
                      :type="type"
-                     :time-picker-options="timePickerOptions"/>
+                     :time-picker-options="timePickerOptions"
+                     :format="format"/>
   </div>
 </template>
 <script lang="ts">
@@ -16,7 +17,7 @@
     }
   })
   export default class DatePicker extends Vue {
-    @Prop({ default: "yyyy-MM-dd" }) format!: string;
+    @Prop({ default: "YYYY-MM-dd" }) format!: string;
     @Prop({ default: "" }) type!: "" | "datetime";
 
     selectedDate: string;
