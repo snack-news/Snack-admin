@@ -21,9 +21,9 @@
           <td>{{ item.category.title }}</td>
           <td></td>
           <td>{{ item.title }}</td>
-          <td v-date-format>{{ item.createAt }}</td>
-          <td v-date-format>{{ item.modifiedAt }}</td>
-          <td v-date-format>{{ item.publishAt }}</td>
+          <td>{{ item.createAt | dateFormat }}</td>
+          <td>{{ item.modifiedAt | dateFormat }}</td>
+          <td>{{ item.publishAt | dateFormat }}</td>
           <td>
             <button type="button" @click="() => onDeleteHandler(item.id)">삭제</button>
           </td>
