@@ -33,14 +33,6 @@
 
         <div class="input-form has-paragraph">
           <label>
-            <strong>목차링크</strong>
-            <input type="text" v-model="topicLink" />
-            <p>가이드 : 고유한 링크를 만들어 목차를 생성하는 작업이라 중요합니다. 공유할 때도 고유링크를 사용합니다.</p>
-          </label>
-        </div>
-
-        <div class="input-form has-paragraph">
-          <label>
             <strong>토픽(회사)</strong>
             <input type="text" v-model="topic" />
             <p>제한은 없으나, 가이드를 참조해주세요. <a>가이드 바로가기</a></p>
@@ -71,7 +63,6 @@
           </label>
         </div>
       </div>
-      <time-picker />
       <!-- // 입력 폼 레이아웃 -->
       <!-- 미리보기 레이아웃 -->
       <div class="new-article__preview-layout">
@@ -112,27 +103,23 @@
   })
   export default class NewArticle extends Vue {
     title: string;
-    date: INullable<Date>;
+    date: Date;
     link: string;
     topic: string;
     options: { value: number; text: string; }[];
-    reservedDate: INullable<Date>;
+    reservedDate: Date;
     content: OutputData["blocks"];
-    output: string;
-    topicLink: string;
     categoryId: number;
 
     constructor() {
       super();
       this.title = "";
-      this.date = null;
+      this.date = new Date();
       this.link = "";
       this.topic = "";
-      this.reservedDate = null;
+      this.reservedDate = new Date();
       this.options = [];
       this.content = [];
-      this.output = "";
-      this.topicLink = "";
       this.categoryId = 0;
     }
     async created () {
@@ -160,16 +147,17 @@
     }
     async onSubmitHandler (): Promise<void> {
       this.validateMandatoryFields();
-      const { isSuccess } =await createNews({
+      const { isSuccess } = await createNews({
         title: this.title,
         categoryId: this.categoryId,
-        content: JSON.stringify(this.content)
+        content: JSON.stringify(this.content),
+        link: this.link,
       });
       if (isSuccess) {
         this.$snotify.success("소식이 성공적으로 작성되었습니다.");
         this.$router.push({ name: "ArticleList" });
       } else {
-        this.$snotify.success("잠시 후 다시 시도하세요.");
+        this.$snotify.error("잠시 후 다시 시도하세요.");
       }
     }
     async onCancelHandler (): Promise<void> {

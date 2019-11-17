@@ -48,7 +48,6 @@
 
     @Watch("selectedDate")
     updateSelectedDate(value: Date) {
-      console.log(value);
       this.$emit("input", value);
     }
 

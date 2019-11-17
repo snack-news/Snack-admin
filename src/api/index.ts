@@ -46,7 +46,6 @@ interface ICreateNewsMandatoryParams {
 
 interface ICreateNewsOptionalParams {
   date: string;
-  topicLink: string;
   topic: string;
   link: string;
   reservedDate: string;
