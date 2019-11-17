@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ICategory, IContent, IPageable } from "@/@types/models/News";
 import { IServiceResponse } from "@/@types/utility/ajax";
+import { INullable } from "@/@types/utility";
 
 const axiosInstance = axios.create({
   baseURL: process.env.VUE_APP_API_URL
@@ -45,10 +46,12 @@ interface ICreateNewsMandatoryParams {
 }
 
 interface ICreateNewsOptionalParams {
+  topicLink: string;
   date: string;
   topic: string;
   link: string;
   reservedDate: string;
+  publishAt: INullable<Date>;
 }
 
 export async function createNews (params: ICreateNewsParams): Promise<IServiceResponse<null>> {

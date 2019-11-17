@@ -63,6 +63,7 @@
           </label>
         </div>
       </div>
+      <time-picker />
       <!-- // 입력 폼 레이아웃 -->
       <!-- 미리보기 레이아웃 -->
       <div class="new-article__preview-layout">
@@ -147,11 +148,10 @@
     }
     async onSubmitHandler (): Promise<void> {
       this.validateMandatoryFields();
-      const { isSuccess } = await createNews({
+      const { isSuccess } =await createNews({
         title: this.title,
         categoryId: this.categoryId,
-        content: JSON.stringify(this.content),
-        link: this.link,
+        content: JSON.stringify(this.content)
       });
       if (isSuccess) {
         this.$snotify.success("소식이 성공적으로 작성되었습니다.");
