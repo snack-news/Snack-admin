@@ -17,7 +17,7 @@
     }
   })
   export default class DatePicker extends Vue {
-    @Prop({ default: "YYYY-MM-dd" }) format!: string;
+    @Prop({ default: "YYYY-MM-DD" }) format!: string;
     @Prop({ default: "" }) type!: "" | "datetime";
 
     selectedDate: string;

@@ -15,7 +15,7 @@
         <div class="input-form has-paragraph">
           <label>
             <strong>날짜</strong>
-            <date-picker v-model="date" />
+            <date-picker v-model="startDateTime" />
             <p>가이드 : 발행하는 '주(week)'를 위해 설정하는 작업입니다. 선택 안할 시 디폴트는 작성 완료 시간 및 해당 주입니다.</p>
           </label>
         </div>
@@ -58,12 +58,11 @@
         <div class="input-form has-paragraph">
           <label>
             <strong>예약업로드</strong>
-            <date-picker v-model="reservedDate" :type="'datetime'"/>
+            <date-picker v-model="publishAt" :type="'datetime'" :format="'YYYY-MM-DD [at] HH:mm'"/>
             <p>설정한 날짜에 업로드 됩니다.</p>
           </label>
         </div>
       </div>
-      <time-picker />
       <!-- // 입력 폼 레이아웃 -->
       <!-- 미리보기 레이아웃 -->
       <div class="new-article__preview-layout">
@@ -93,7 +92,6 @@
   import { createNews, fetchCategoryList } from "@/api";
   import { INullable } from "@/@types/utility";
   import { OutputData } from "@editorjs/editorjs/types/data-formats/output-data";
-
   @Component({
     components: {
       CustomButton,
@@ -104,23 +102,24 @@
   })
   export default class NewArticle extends Vue {
     title: string;
-    date: Date;
+    startDateTime: INullable<Date>;
     link: string;
     topic: string;
     options: { value: number; text: string; }[];
-    reservedDate: Date;
+    publishAt: INullable<Date>;
     content: OutputData["blocks"];
+    output: string;
     categoryId: number;
-
     constructor() {
       super();
       this.title = "";
-      this.date = new Date();
+      this.startDateTime = null;
       this.link = "";
       this.topic = "";
-      this.reservedDate = new Date();
+      this.publishAt = null;
       this.options = [];
       this.content = [];
+      this.output = "";
       this.categoryId = 0;
     }
     async created () {
@@ -135,29 +134,39 @@
         alert(response.message);
       }
     }
-    validateMandatoryFields (): void {
-      if (!this.title) {
-        return alert("제목을 입력해주세요.");
+    validateMandatoryFields (): boolean {
+      if (!this.title.length) {
+        alert("제목을 입력해주세요.");
+        return false;
       }
-      if (!this.content) {
-        return alert("내용을 입력해주세요.");
+      if (!this.content.length) {
+        alert("내용을 입력해주세요.");
+        return false;
       }
       if (!this.categoryId) {
-        return alert("카테고리를 선택해주세요.");
+        alert("카테고리를 선택해주세요.");
+        return false;
       }
+      return true;
     }
     async onSubmitHandler (): Promise<void> {
-      this.validateMandatoryFields();
-      const { isSuccess } =await createNews({
+      const passedValidate = this.validateMandatoryFields();
+      if (!passedValidate) {
+        return;
+      }
+      const { isSuccess } = await createNews({
         title: this.title,
         categoryId: this.categoryId,
-        content: JSON.stringify(this.content)
+        content: JSON.stringify(this.content),
+        startDateTime: this.startDateTime,
+        publishAt: this.publishAt,
+        link: this.link
       });
       if (isSuccess) {
         this.$snotify.success("소식이 성공적으로 작성되었습니다.");
         this.$router.push({ name: "ArticleList" });
       } else {
-        this.$snotify.error("잠시 후 다시 시도하세요.");
+        this.$snotify.success("잠시 후 다시 시도하세요.");
       }
     }
     async onCancelHandler (): Promise<void> {
@@ -176,16 +185,13 @@
         width: calc(100% - 370px);
         .input-form {
           margin-bottom: 32px;
-
           &.has-paragraph {
             margin-bottom: 24px;
           }
-
           label {
             position: relative;
             display: block;
             padding-left: 108px;
-
             strong {
               position: absolute;
               left: 0;
@@ -194,7 +200,6 @@
               font-weight: normal;
               color: #0f0f0f;
             }
-
             input, select {
               width: 100%;
               height: 48px;
@@ -206,7 +211,6 @@
               -webkit-border-radius: 0px;
               background: none;
             }
-
             p {
               margin-top: 12px;
               /deep/ a {
@@ -214,10 +218,8 @@
               }
             }
           }
-
           /deep/ .mx-datepicker {
             width: 100%;
-
             input {
               width: 100%;
               height: 48px;
@@ -230,11 +232,9 @@
           }
         }
       }
-
       .new-article__preview-layout {
         width: 307px;
         float: right;
-
         strong {
           display: block;
           margin-bottom: 34px;
@@ -242,17 +242,14 @@
           font-weight: normal;
           color: #0f0f0f;
         }
-
         div {
           background-color: #b7b7b7;
           height: 909px;
         }
       }
-
       .new-article__button-layout {
         clear: both;
         text-align: center;
-
         /deep/ .custom-button {
           &.is-type01 {
             margin-right: 23px;
@@ -261,5 +258,4 @@
       }
     }
   }
-
 </style>
