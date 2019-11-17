@@ -83,6 +83,7 @@ const router = new Router({
       path: '/new-article',
       name: 'ArticleForm',
       components: {
+        header: HeaderComponent,
         default: ArticleForm
       },
       meta: {
