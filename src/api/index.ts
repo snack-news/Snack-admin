@@ -53,9 +53,14 @@ interface ICreateNewsOptionalParams {
   publishAt: INullable<Date>;
 }
 
+function generateTopicList (topic: string = "") {
+  return topic.length > 0 ? topic.split(",").map(v => v.trim()) : [];
+}
+
 export async function createNews (params: ICreateNewsParams): Promise<IServiceResponse<null>> {
   try {
-    await axiosInstance.post("/admin/api/news", params);
+    const topicNames = generateTopicList(params.topic);
+    await axiosInstance.post("/admin/api/news", { ...params, topicNames });
     return {
       data: null,
       isSuccess: true

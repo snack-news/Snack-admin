@@ -155,6 +155,7 @@
         return;
       }
       const { isSuccess } = await createNews({
+        topic: this.topic,
         title: this.title,
         categoryId: this.categoryId,
         content: JSON.stringify(this.content),
