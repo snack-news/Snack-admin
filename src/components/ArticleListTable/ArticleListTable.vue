@@ -29,7 +29,8 @@
           <td>{{ item.modifiedAt | dateFormat }}</td>
           <td>{{ item.publishAt | dateFormat }}</td>
           <td>
-            <button type="button" @click="() => onDeleteHandler(item.id)">삭제</button>
+            <router-link class="edit-button" :to="{ name: 'ArticleEditingForm' }">수정</router-link>
+            <button class="delete-button" type="button" @click="() => onDeleteHandler(item.id)">삭제</button>
           </td>
         </tr>
         <tr v-if="news.length === 0">
@@ -74,8 +75,12 @@
           font-size: 14px;
           font-weight: normal;
           color: #0f0f0f;
-          button {
+          .delete-button {
             color: #f10202;
+          }
+          .edit-button {
+            margin-right: 10px;
+            color: #595858;
           }
           &.is-empty {
             padding: 40px 0;

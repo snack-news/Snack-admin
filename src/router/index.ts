@@ -5,6 +5,7 @@ import Signin from '@/views/Signin.vue'
 import ArticleForm from '@/views/NewArticle.vue'
 import ArticleList from '@/views/ArticleList.vue'
 import Signup from "@/views/Signup.vue"
+import EditingArticleForm from "@/views/EditingArticleForm.vue";
 
 import HeaderComponent from '@/components/Layouts/HeaderComponent.vue'
 import { Next } from "@/@types/library/vue-router";
@@ -85,6 +86,17 @@ const router = new Router({
       components: {
         header: HeaderComponent,
         default: ArticleForm
+      },
+      meta: {
+        isRequiredAuth: true
+      }
+    },
+    {
+      path: '/edit-article',
+      name: 'ArticleEditingForm',
+      components: {
+        header: HeaderComponent,
+        default: EditingArticleForm
       },
       meta: {
         isRequiredAuth: true
