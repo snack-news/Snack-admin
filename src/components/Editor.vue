@@ -71,16 +71,24 @@
 
 <style scoped lang="scss">
   .editor {
-    text-align: left;
+    box-sizing: border-box;
     height: 100%;
+    min-height: 300px;
+    padding: 15px;
     border: solid 1px #0f0f0f;
+    text-align: left;
     /deep/ .ce-block__content {
       max-width: unset;
       margin: 0;
-      padding: 12px 18px;
+      .cdx-block.ce-paragraph {
+        padding: 0;
+      }
     }
     /deep/ .ce-toolbar__plus {
       left: -66px;
+    }
+    /deep/ .codex-editor__redactor {
+      padding-bottom: 0;
     }
   }
 </style>
