@@ -1,5 +1,8 @@
+import { IContent } from "@/@types/models/News";
+
 interface IRootState {
   auth: IAuthState;
+  news: INewsState;
 }
 
 interface IAuthState {
@@ -9,4 +12,9 @@ interface IAuthState {
   email: string;
   emailVerified: boolean;
   photoURL: string;
+}
+
+interface INewsState {
+  items: IContent[];
+  totalItemCount: number;
 }

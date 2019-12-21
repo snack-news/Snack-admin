@@ -13,8 +13,8 @@
       <router-link :to="{ name: 'ArticleForm' }">소식 작성</router-link>
     </div>
     <!-- // 버튼 영역 -->
-    <article-list-table :news="news"
-                        @onDeleteHandler="onDeleteHandler"/>
+    <article-list-table :news="items"
+                        @onDeleteHandler="deleteNewsAction"/>
     <b-pagination v-model="currentPage"
                   :total-rows="totalPage"
                   :per-page="perPage"
@@ -23,11 +23,11 @@
   </div>
 </template>
 <script lang="ts">
-  import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
+  import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+  import { Action, State } from "vuex-class";
   import CustomTitle from "@/components/Utils/CustomTitle/CustomTitle.vue";
   import ArticleListTable from "@/components/ArticleListTable/ArticleListTable.vue";
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
-  import { deleteNews, fetchNewsList } from "@/api";
   import { IContent } from "@/@types/models/News";
   import { Route } from "vue-router";
   import { Next } from "@/@types/library/vue-router";
@@ -43,40 +43,33 @@
     }
   })
   export default class ArticleList extends Vue {
-    news: IContent[];
     currentPage: string;
-    totalPage: number;
     perPage: number;
     @Prop() page!: string;
     @Prop() type!: string;
 
     constructor () {
       super();
-      this.news = [];
       this.currentPage = this.page;
-      this.totalPage = 0;
       this.perPage = 10;
     }
     beforeRouteEnter (to: Route, from: Route, next: Next) {
       next(async vm => {
         const page = (<string>vm.$route.query.page);
         const type = (<string>vm.$route.query.type);
-        const { content, totalElements } = await fetchNewsList({ page, type });
         // @ts-ignore
-        vm.news = content;
-        // @ts-ignore
-        vm.totalPage = totalElements;
+        vm.fetchNewsListAction({ page, type });
       })
     }
-
+    @Action('news/fetchNewsListAction') fetchNewsListAction!: (args: any) => Promise<void>;
+    @Action('news/deleteNewsAction') deleteNewsAction!: (id: number) => Promise<void>;
+    @State(state => state.news.items) items!: IContent[];
+    @State(state => state.news.totalItemCount) totalPage!: number;
     @Watch('$route')
     async onChangeRoute (route: Route) {
       const page = (<string>route.query.page);
       const type = (<string>route.query.type);
-      const { content, totalElements } = await fetchNewsList({ page, type });
-
-      this.news = content;
-      this.totalPage = totalElements;
+      await this.fetchNewsListAction({ page, type });
     }
     @Watch('currentPage')
     onChangeCurrentPage (page: number) {
@@ -93,16 +86,6 @@
           ...this.$route.query,
           type,
         }
-      }
-    }
-    async onDeleteHandler (id: number) {
-      if (!confirm("정말 삭제하시겠습니까?")) { return; }
-      const response = await deleteNews(id);
-      if (response.isSuccess) {
-        this.news = this.news.filter(v => v.id !== id);
-        alert("삭제가 완료되었습니다.");
-      } else {
-        alert(response.message);
       }
     }
   }
