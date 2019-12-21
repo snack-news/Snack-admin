@@ -19,7 +19,11 @@
           <td>{{ item.id }}</td>
           <td>TOP</td>
           <td>{{ item.category.title }}</td>
-          <td></td>
+          <td>
+            <span v-for="(topic, index) in item.topics" :key="topic.id">
+              <template v-if="index !== 0">,</template>{{ topic.name }}
+            </span>
+          </td>
           <td>{{ item.title }}</td>
           <td>{{ item.createAt | dateFormat }}</td>
           <td>{{ item.modifiedAt | dateFormat }}</td>
