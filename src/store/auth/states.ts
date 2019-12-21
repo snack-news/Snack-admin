@@ -1,3 +1,5 @@
+import { IAuthState } from "@/@types/store";
+
 export default <IAuthState> {
   isUser: false,
   uid: "",
