@@ -90,3 +90,19 @@ export async function fetchCategoryList (): Promise<IServiceResponse<ICategory[]
     };
   }
 }
+
+export async function deleteNews (newsId: number): Promise<IServiceResponse<null>> {
+  try {
+    await axiosInstance.delete(`/admin/api/news/${newsId}`);
+    return {
+      data: null,
+      isSuccess: true
+    }
+  } catch (e) {
+    return {
+      data: null,
+      isSuccess: false,
+      message: "잠시 후 다시 시도하세요.(E0002)"
+    };
+  }
+}

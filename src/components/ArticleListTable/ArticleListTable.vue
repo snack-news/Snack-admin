@@ -49,7 +49,7 @@
     constructor () {
       super();
     }
-    onDeleteHandler (id: string) {
+    onDeleteHandler (id: number) {
       this.$emit('onDeleteHandler', id);
     }
 

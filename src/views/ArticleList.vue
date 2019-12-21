@@ -27,7 +27,7 @@
   import CustomTitle from "@/components/Utils/CustomTitle/CustomTitle.vue";
   import ArticleListTable from "@/components/ArticleListTable/ArticleListTable.vue";
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
-  import { fetchNewsList } from "@/api";
+  import { deleteNews, fetchNewsList } from "@/api";
   import { IContent } from "@/@types/models/News";
   import { Route } from "vue-router";
   import { Next } from "@/@types/library/vue-router";
@@ -95,8 +95,15 @@
         }
       }
     }
-    onDeleteHandler (id: string) {
-      alert("현재 삭제 기능은 지원하지 않습니다.");
+    async onDeleteHandler (id: number) {
+      if (!confirm("정말 삭제하시겠습니까?")) { return; }
+      const response = await deleteNews(id);
+      if (response.isSuccess) {
+        this.news = this.news.filter(v => v.id !== id);
+        alert("삭제가 완료되었습니다.");
+      } else {
+        alert(response.message);
+      }
     }
   }
 </script>
