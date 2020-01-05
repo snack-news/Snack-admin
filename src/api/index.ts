@@ -74,12 +74,24 @@ export async function createNews (params: ICreateNewsParams): Promise<IServiceRe
   }
 }
 
-export async function fetchCategoryList (): Promise<IServiceResponse<ICategory[]>> {
+interface IFetchCategoryList {
+  options: Array<{
+    value: number;
+    text: string;
+  }>;
+}
+
+export async function fetchCategoryList (): Promise<IServiceResponse<IFetchCategoryList>> {
   try {
     const { data } = await axiosInstance.get<{ data: ICategory[] }>("/api/category");
 
     return {
-      data: data.data,
+      data: {
+        options: data.data.map(({ id, title }) => ({
+          value: id,
+          text: title
+        }))
+      },
       isSuccess: true,
     }
   } catch (e) {

@@ -125,10 +125,7 @@
     async created () {
       const response = await fetchCategoryList();
       if (response.isSuccess) {
-        this.options = response.data.map(({ id, title }) => ({
-          value: id,
-          text: title
-        }));
+        this.options = response.data.options;
         this.categoryId = this.options[0].value;
       } else {
         alert(response.message);

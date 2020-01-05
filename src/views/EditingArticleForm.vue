@@ -139,10 +139,7 @@
       });
       const response = await fetchCategoryList();
       if (response.isSuccess) {
-        this.options = response.data.map(({ id, title }) => ({
-          value: id,
-          text: title
-        }));
+        this.options = response.data.options;
       } else {
         alert(response.message);
       }
