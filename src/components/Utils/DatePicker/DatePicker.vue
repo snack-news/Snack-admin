@@ -10,6 +10,7 @@
 <script lang="ts">
   import { Component, Vue, Watch, Prop } from "vue-property-decorator";
   import VueDatePicker from "vue2-datepicker";
+  import { INullable } from "@/@types/utility";
 
   @Component({
     components: {
@@ -17,10 +18,11 @@
     }
   })
   export default class DatePicker extends Vue {
+    @Prop() value!: any;
     @Prop({ default: "YYYY-MM-DD" }) format!: string;
     @Prop({ default: "" }) type!: "" | "datetime";
 
-    selectedDate: string;
+    selectedDate: INullable<Date>;
     language: VueDatePicker.Lang;
     timePickerOptions: {
       start: string;
@@ -30,7 +32,7 @@
 
     constructor() {
       super();
-      this.selectedDate = "";
+      this.selectedDate = null;
       this.language = {
         days: ["일", "월", "화", "수", "목", "금", "토"],
         months: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
@@ -45,6 +47,13 @@
         step: '00:30',
         end: '23:30'
       };
+    }
+    created () {
+      if (!this.value) {
+        this.selectedDate = new Date();
+        return;
+      }
+      this.selectedDate = this.value;
     }
 
     @Watch("selectedDate")
