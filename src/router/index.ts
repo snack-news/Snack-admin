@@ -92,7 +92,7 @@ const router = new Router({
       }
     },
     {
-      path: '/edit-article',
+      path: '/edit-article/:id',
       name: 'ArticleEditingForm',
       components: {
         header: HeaderComponent,
@@ -100,6 +100,9 @@ const router = new Router({
       },
       meta: {
         isRequiredAuth: true
+      },
+      props: {
+        default: true,
       }
     },
   ]

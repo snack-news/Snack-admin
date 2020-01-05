@@ -1,4 +1,5 @@
 import { MutationTree } from "vuex";
+import { IAuthState } from "@/@types/store";
 
 interface IUserInformation {
   uid: string;

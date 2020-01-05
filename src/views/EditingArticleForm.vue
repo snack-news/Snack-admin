@@ -15,8 +15,7 @@
         <div class="input-form has-paragraph">
           <label>
             <strong>날짜</strong>
-            <date-picker v-model="startDateTime" />
-            <p>가이드 : 발행하는 '주(week)'를 위해 설정하는 작업입니다. 선택 안할 시 디폴트는 작성 완료 시간 및 해당 주입니다.</p>
+            <date-picker v-model="createdAt" :disabled="true"/>
           </label>
         </div>
 
@@ -35,7 +34,6 @@
           <label>
             <strong>토픽(회사)</strong>
             <input type="text" v-model="topic" />
-            <p>제한은 없으나, 가이드를 참조해주세요. <a>가이드 바로가기</a></p>
           </label>
         </div>
 
@@ -43,7 +41,6 @@
           <label>
             <strong>본문</strong>
             <editor v-model="content" />
-            <p>제한은 없으나, 가이드를 참조해주세요. <a>가이드 바로가기</a></p>
           </label>
         </div>
 
@@ -51,7 +48,6 @@
           <label>
             <strong>참고 링크</strong>
             <input type="text" v-model="link" />
-            <p>가이드 : 이 소식을 작성하기 위해 참고한 뉴스링크나 소식링크가 있으면 적어주세요. 없으면 UI에 나타나지 않습니다.</p>
           </label>
         </div>
 
@@ -84,14 +80,17 @@
   </div>
 </template>
 <script lang="ts">
-  import { Component, Vue } from "vue-property-decorator";
+  import { Component, Prop, Vue } from "vue-property-decorator";
+  import { Action, State } from "vuex-class";
   import DatePicker from "@/components/Utils/DatePicker/DatePicker.vue";
   import CustomTitle from "@/components/Utils/CustomTitle/CustomTitle.vue";
   import Editor from "@/components/Editor.vue";
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
-  import { createNews, fetchCategoryList } from "@/api";
+  import { fetchCategoryList } from "@/api";
   import { INullable } from "@/@types/utility";
   import { OutputData } from "@editorjs/editorjs/types/data-formats/output-data";
+  import { IContent } from "@/@types/models/News";
+
   @Component({
     components: {
       CustomButton,
@@ -102,8 +101,8 @@
   })
   export default class NewArticle extends Vue {
     title: string;
-    startDateTime: INullable<Date>;
-    link: string;
+    createdAt: INullable<Date>;
+    link: INullable<string>;
     topic: string;
     options: { value: number; text: string; }[];
     publishAt: INullable<Date>;
@@ -113,7 +112,7 @@
     constructor() {
       super();
       this.title = "";
-      this.startDateTime = null;
+      this.createdAt = null;
       this.link = "";
       this.topic = "";
       this.publishAt = null;
@@ -122,59 +121,42 @@
       this.output = "";
       this.categoryId = 0;
     }
+    @Prop() id!: string;
+    @State(state => state.news.items) items!: IContent[];
+    @Action("news/updateNewsAction") updateNewsAction!: (payload: any) => void;
+
     async created () {
+      this.items.map(({ id, title, content, link, publishAt, topics, category }) => {
+        if (id === Number(this.id)) {
+          this.title = title;
+          this.content = JSON.parse(content);
+          this.link = link;
+          this.publishAt = publishAt ? new Date(publishAt) : null;
+          this.topic = topics.map(({ name }) => name).join(",");
+          console.log(category.id);
+          this.categoryId = category.id;
+        }
+      });
       const response = await fetchCategoryList();
       if (response.isSuccess) {
         this.options = response.data.map(({ id, title }) => ({
           value: id,
           text: title
         }));
-        this.categoryId = this.options[0].value;
       } else {
         alert(response.message);
       }
     }
-    validateMandatoryFields (): boolean {
-      if (!this.title.length) {
-        alert("제목을 입력해주세요.");
-        return false;
-      }
-      if (!this.content.length) {
-        alert("내용을 입력해주세요.");
-        return false;
-      }
-      if (!this.categoryId) {
-        alert("카테고리를 선택해주세요.");
-        return false;
-      }
-      return true;
-    }
+
     async onSubmitHandler (): Promise<void> {
-      const passedValidate = this.validateMandatoryFields();
-      if (!passedValidate) {
-        return;
-      }
-      const { isSuccess } = await createNews({
-        topic: this.topic,
+      this.updateNewsAction({
+        id: this.id,
         title: this.title,
+        topic: this.topic,
         categoryId: this.categoryId,
         content: JSON.stringify(this.content),
-        startDateTime: this.startDateTime,
-        publishAt: this.publishAt,
         link: this.link
       });
-      if (isSuccess) {
-        this.$snotify.success("소식이 성공적으로 작성되었습니다.");
-        this.$router.push({ name: "ArticleList" });
-      } else {
-        this.$snotify.success("잠시 후 다시 시도하세요.");
-      }
-    }
-    async onCancelHandler (): Promise<void> {
-      const isConfirmedCancel = confirm("작성을 취소하시겠습니까? 작성을 취소하시면 기존 작성 중이던 내용은 모두 사라집니다.");
-      if (isConfirmedCancel) {
-        this.$router.push({ name: "ArticleList" });
-      }
     }
   }
 </script>

@@ -29,7 +29,7 @@
           <td>{{ item.modifiedAt | dateFormat }}</td>
           <td>{{ item.publishAt | dateFormat }}</td>
           <td>
-            <router-link class="edit-button" :to="{ name: 'ArticleEditingForm' }">수정</router-link>
+            <router-link class="edit-button" :to="{ name: 'ArticleEditingForm', params: { id: item.id } }">수정</router-link>
             <button class="delete-button" type="button" @click="() => onDeleteHandler(item.id)">삭제</button>
           </td>
         </tr>

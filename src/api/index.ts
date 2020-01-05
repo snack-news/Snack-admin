@@ -106,3 +106,34 @@ export async function deleteNews (newsId: number): Promise<IServiceResponse<null
     };
   }
 }
+
+type IUpdateNewsParams = IUpdateNewsMandatoryParams & IUpdateNewsOptionalParams;
+
+interface IUpdateNewsMandatoryParams {
+  id: string;
+  title: string;
+  categoryId: string;
+  content: string;
+}
+
+interface IUpdateNewsOptionalParams {
+  modifiedAt: Date;
+  topic: string;
+}
+
+export async function updateNews (payload: IUpdateNewsParams): Promise<IServiceResponse<null>> {
+  try {
+    const topicNames = generateTopicList(payload.topic);
+    await axiosInstance.put(`/admin/api/news/${payload.id}`, {...payload, topicNames });
+    return {
+      data: null,
+      isSuccess: true
+    }
+  } catch (e) {
+    return {
+      data: null,
+      isSuccess: false,
+      message: "잠시 후 다시 시도하세요.(E0004)"
+    };
+  }
+}
