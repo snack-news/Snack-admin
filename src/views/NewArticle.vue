@@ -15,7 +15,7 @@
         <div class="input-form has-paragraph">
           <label>
             <strong>날짜</strong>
-            <date-picker v-model="startDateTime" />
+            <date-picker v-model="createdAt" />
             <p>가이드 : 발행하는 '주(week)'를 위해 설정하는 작업입니다. 선택 안할 시 디폴트는 작성 완료 시간 및 해당 주입니다.</p>
           </label>
         </div>
@@ -102,7 +102,7 @@
   })
   export default class NewArticle extends Vue {
     title: string;
-    startDateTime: INullable<Date>;
+    createdAt: INullable<Date>;
     link: string;
     topic: string;
     options: { value: number; text: string; }[];
@@ -113,7 +113,7 @@
     constructor() {
       super();
       this.title = "";
-      this.startDateTime = null;
+      this.createdAt = null;
       this.link = "";
       this.topic = "";
       this.publishAt = null;
@@ -159,7 +159,7 @@
         title: this.title,
         categoryId: this.categoryId,
         content: JSON.stringify(this.content),
-        startDateTime: this.startDateTime,
+        createdAt: this.createdAt,
         publishAt: this.publishAt,
         link: this.link
       });

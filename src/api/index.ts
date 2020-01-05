@@ -46,7 +46,7 @@ interface ICreateNewsMandatoryParams {
 }
 
 interface ICreateNewsOptionalParams {
-  startDateTime: INullable<Date>;
+  createdAt: INullable<Date>;
   topicLink: string;
   topic: string;
   link: string;
