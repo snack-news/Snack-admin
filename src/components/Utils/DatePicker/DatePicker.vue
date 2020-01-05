@@ -4,7 +4,8 @@
                      :lang="language"
                      :type="type"
                      :time-picker-options="timePickerOptions"
-                     :format="format"/>
+                     :format="format"
+                     :disabled="disabled"/>
   </div>
 </template>
 <script lang="ts">
@@ -18,9 +19,10 @@
     }
   })
   export default class DatePicker extends Vue {
-    @Prop() value!: any;
+    @Prop() value!: INullable<Date>;
     @Prop({ default: "YYYY-MM-DD" }) format!: string;
     @Prop({ default: "" }) type!: "" | "datetime";
+    @Prop({ default: false }) disabled!: boolean;
 
     selectedDate: INullable<Date>;
     language: VueDatePicker.Lang;

@@ -1,22 +1,24 @@
 <template>
-  <div class="editor" id="codex-editor">
-  </div>
+  <div class="editor" id="codex-editor" />
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue, PropSync } from "vue-property-decorator";
+  import { Component, Prop, Vue } from "vue-property-decorator";
   import EditorJS from "@editorjs/editorjs";
   import List from "@editorjs/list";
   import Header from "@editorjs/header";
   import ImageTool from "@editorjs/image";
   import Embed from "@editorjs/embed";
   import { INullable } from "@/@types/utility";
+  import { OutputData } from "@editorjs/editorjs/types/data-formats/output-data";
 
   @Component({
     name: "Editor"
   })
   export default class Editor extends Vue {
     editorRef: INullable<EditorJS>;
+    @Prop() value!: OutputData["blocks"];
+    @Prop() msg!: string;
 
     constructor() {
       super();
@@ -47,13 +49,14 @@
             class: ImageTool
           }
         },
+        data: {
+          blocks: this.value
+        },
         onChange (): void {
           that.onChangeHandler();
         }
       });
     }
-
-    @Prop() private msg!: string;
 
     async onChangeHandler () {
       if (!this.editorRef) {
@@ -92,3 +95,4 @@
     }
   }
 </style>
+
