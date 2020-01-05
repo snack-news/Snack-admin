@@ -100,7 +100,7 @@
       Editor
     }
   })
-  export default class NewArticle extends Vue {
+  export default class ArticleCreate extends Vue {
     title: string;
     createdAt: INullable<Date>;
     link: string;

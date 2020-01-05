@@ -10,7 +10,7 @@
     <!-- // 탭 영역 -->
     <!-- 버튼 영역 -->
     <div class="article-list__button-wrapper">
-      <router-link :to="{ name: 'ArticleForm' }">소식 작성</router-link>
+      <router-link :to="{ name: 'ArticleCreate' }">소식 작성</router-link>
     </div>
     <!-- // 버튼 영역 -->
     <article-list-table :news="items"

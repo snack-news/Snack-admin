@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Router, { Route } from 'vue-router'
 
 import Signin from '@/views/Signin.vue'
-import ArticleForm from '@/views/NewArticle.vue'
-import ArticleList from '@/views/ArticleList.vue'
+import ArticleCreate from '@/views/News/ArticleCreate.vue'
+import ArticleList from '@/views/News/ArticleList.vue'
 import Signup from "@/views/Signup.vue"
-import EditingArticleForm from "@/views/EditingArticleForm.vue";
+import ArticleEdit from "@/views/News/ArticleEdit.vue";
 
 import HeaderComponent from '@/components/Layouts/HeaderComponent.vue'
 import { Next } from "@/@types/library/vue-router";
@@ -82,10 +82,10 @@ const router = new Router({
     },
     {
       path: '/new-article',
-      name: 'ArticleForm',
+      name: 'ArticleCreate',
       components: {
         header: HeaderComponent,
-        default: ArticleForm
+        default: ArticleCreate
       },
       meta: {
         isRequiredAuth: true
@@ -93,10 +93,10 @@ const router = new Router({
     },
     {
       path: '/edit-article/:id',
-      name: 'ArticleEditingForm',
+      name: 'ArticleEdit',
       components: {
         header: HeaderComponent,
-        default: EditingArticleForm
+        default: ArticleEdit
       },
       meta: {
         isRequiredAuth: true
