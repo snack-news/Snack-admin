@@ -89,9 +89,10 @@
   import CustomTitle from "@/components/Utils/CustomTitle/CustomTitle.vue";
   import Editor from "@/components/Editor.vue";
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
-  import { createNews, fetchCategoryList } from "@/api";
+  import { createNews} from "@/api/news";
   import { INullable } from "@/@types/utility";
   import { OutputData } from "@editorjs/editorjs/types/data-formats/output-data";
+  import { fetchCategoryList } from "@/api/category";
   @Component({
     components: {
       CustomButton,

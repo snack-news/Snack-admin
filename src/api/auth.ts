@@ -2,11 +2,7 @@ import firebase, { User } from "firebase";
 import firebaseAuthService, { fireStore } from "./initializer/firebase";
 import { INullable } from "@/@types/utility";
 import { IServiceResponse } from "@/@types/utility/ajax";
-
-interface ISignupWithEmailRequiredParams {
-  emailId: string;
-  password: string;
-}
+import { IEmailAuthRequiredParams, ISignupWithEmailRequiredParams } from "@/api/types/auth";
 
 export async function signupWithEmail ({ emailId, password }: ISignupWithEmailRequiredParams): Promise<IServiceResponse<firebase.User>> {
   try {
@@ -31,11 +27,6 @@ export async function signupWithEmail ({ emailId, password }: ISignupWithEmailRe
       message: e.message
     };
   }
-}
-
-interface IEmailAuthRequiredParams {
-  emailId: string;
-  password: string;
 }
 
 export async function emailAuth ({ emailId, password }: IEmailAuthRequiredParams): Promise<IServiceResponse<firebase.User>> {
@@ -99,11 +90,6 @@ export async function whoAmI (): Promise<INullable<User>> {
 
 export async function signoutService () {
   await firebaseAuthService.auth().signOut();
-}
-
-interface IPermissionInformation {
-  isAdmin: true;
-  lastLogin: string;
 }
 
 export async function checkPermission (uid: string): Promise<boolean> {

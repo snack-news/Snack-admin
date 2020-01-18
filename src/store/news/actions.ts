@@ -1,6 +1,6 @@
 import { ActionContext, ActionTree } from "vuex";
 import { INewsState, IRootState } from "@/@types/store";
-import { deleteNews, fetchNewsList, updateNews } from "@/api";
+import { deleteNews, fetchNewsList, updateNews } from "@/api/news";
 import router from "@/router";
 
 type NewsContext = ActionContext<INewsState, IRootState>;

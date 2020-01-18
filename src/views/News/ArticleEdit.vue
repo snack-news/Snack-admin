@@ -86,10 +86,10 @@
   import CustomTitle from "@/components/Utils/CustomTitle/CustomTitle.vue";
   import Editor from "@/components/Editor.vue";
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
-  import { fetchCategoryList } from "@/api";
   import { INullable } from "@/@types/utility";
   import { OutputData } from "@editorjs/editorjs/types/data-formats/output-data";
   import { IContent } from "@/@types/models/News";
+  import { fetchCategoryList } from "@/api/category";
 
   @Component({
     components: {
