@@ -151,6 +151,7 @@
         title: this.title,
         topic: this.topic,
         categoryId: this.categoryId,
+        createdAt: this.createdAt,
         content: JSON.stringify(this.content),
         link: this.link
       });
