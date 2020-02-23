@@ -137,10 +137,6 @@
         alert("제목을 입력해주세요.");
         return false;
       }
-      if (!this.content.length) {
-        alert("내용을 입력해주세요.");
-        return false;
-      }
       if (!this.categoryId) {
         alert("카테고리를 선택해주세요.");
         return false;
