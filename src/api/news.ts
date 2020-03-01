@@ -1,10 +1,11 @@
 import { IServiceResponse } from "@/@types/utility/ajax";
-import { ICreateNewsParams, IFetchNewsListParams, INewsListResponse, IUpdateNewsParams } from "@/api/types/news";
+import { ICreateNewsParams, IFetchNewsListParams, IUpdateNewsParams } from "@/api/types/news";
 import axiosInstance from "@/api/initializer/axios";
+import { INewsContent } from "@/@types/models/News";
 
 
-export async function fetchNewsList ({ page }: IFetchNewsListParams): Promise<INewsListResponse> {
-  const { data } = await axiosInstance.get<{ data: INewsListResponse }>(`/admin/api/news/${page}`);
+export async function fetchNewsList ({ page }: IFetchNewsListParams): Promise<IPageableContent<INewsContent>> {
+  const { data } = await axiosInstance.get<{ data: IPageableContent<INewsContent> }>(`/admin/api/news/${page}`);
 
   return data.data;
 }

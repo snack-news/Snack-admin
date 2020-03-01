@@ -28,7 +28,7 @@
   import CustomTitle from "@/components/Utils/CustomTitle/CustomTitle.vue";
   import ArticleListTable from "@/components/ArticleListTable/ArticleListTable.vue";
   import CustomButton from "@/components/Utils/CustomButton/CustomButton.vue";
-  import { IContent } from "@/@types/models/News";
+  import { INewsContent } from "@/@types/models/News";
   import { Route } from "vue-router";
   import { Next } from "@/@types/library/vue-router";
 
@@ -63,7 +63,7 @@
     }
     @Action('news/fetchNewsListAction') fetchNewsListAction!: (args: any) => Promise<void>;
     @Action('news/deleteNewsAction') deleteNewsAction!: (id: number) => Promise<void>;
-    @State(state => state.news.items) items!: IContent[];
+    @State(state => state.news.items) items!: INewsContent[];
     @State(state => state.news.totalItemCount) totalPage!: number;
     @Watch('$route')
     async onChangeRoute (route: Route) {

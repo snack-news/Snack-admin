@@ -1,4 +1,4 @@
-import { IContent } from "@/@types/models/News";
+import { INewsContent } from "@/@types/models/News";
 
 interface IRootState {
   auth: IAuthState;
@@ -15,6 +15,6 @@ interface IAuthState {
 }
 
 interface INewsState {
-  items: IContent[];
+  items: INewsContent[];
   totalItemCount: number;
 }

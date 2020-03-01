@@ -1,8 +1,8 @@
 import { MutationTree } from "vuex";
 import { INewsState } from "@/@types/store";
-import { IContent } from "@/@types/models/News";
+import { INewsContent } from "@/@types/models/News";
 
-function setNewsItems (state: INewsState, payload: { items: IContent[]; totalItemCount: number; }) {
+function setNewsItems (state: INewsState, payload: { items: INewsContent[]; totalItemCount: number; }) {
   state.items = payload.items;
   state.totalItemCount = payload.totalItemCount;
 }

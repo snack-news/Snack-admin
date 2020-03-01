@@ -1,23 +1,4 @@
 import { INullable } from "@/@types/utility";
-import { IContent, IPageable } from "@/@types/models/News";
-
-export interface INewsListResponse {
-  content: IContent[];
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  pageable: IPageable;
-  size: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  };
-  totalElements: number;
-  totalPages: number;
-}
 
 export interface IFetchNewsListParams {
   page: string;

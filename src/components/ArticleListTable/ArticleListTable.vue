@@ -42,11 +42,11 @@
 </template>
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator';
-  import { IContent } from "@/@types/models/News";
+  import { INewsContent } from "@/@types/models/News";
 
   @Component
   export default class ArticleListTable extends Vue {
-    @Prop() news!: IContent[];
+    @Prop() news!: INewsContent[];
     constructor () {
       super();
     }

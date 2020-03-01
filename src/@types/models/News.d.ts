@@ -1,6 +1,6 @@
 import { INullable } from "@/@types/utility";
 
-export interface IContent {
+export interface INewsContent {
   createAt: string;
   modifiedAt: string;
   id: number;
@@ -9,11 +9,13 @@ export interface IContent {
   link: INullable<string>;
   category: ICategory;
   topics: ITopic[];
-  tags: {
-    id: number;
-    title: string
-  }[];
+  tags: ITag[];
   publishAt: INullable<string>;
+}
+
+interface ITag {
+  id: number;
+  title: string
 }
 
 export interface ICategory {
@@ -26,17 +28,4 @@ export interface ITopic {
   type: string;
   name: string;
   image: null;
-}
-
-export interface IPageable {
-  offset: number;
-  pageNumber: number;
-  pageSize: number;
-  paged: boolean;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  };
-  unpaged: boolean;
 }
