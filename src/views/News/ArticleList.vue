@@ -2,11 +2,7 @@
   <div class="article-list">
     <custom-title title="에디터 어드민" />
     <!-- 탭 영역 -->
-    <ul>
-      <li><router-link :to="getRouteLink('news')">news(소식)</router-link></li>
-      <li><router-link :to="getRouteLink('sub-news')">news(관련 소식)</router-link></li>
-      <li><router-link :to="getRouteLink('picks')">picks(아티클)</router-link></li>
-    </ul>
+    <Tab />
     <!-- // 탭 영역 -->
     <!-- 버튼 영역 -->
     <div class="article-list__button-wrapper">
@@ -31,12 +27,14 @@
   import { INewsContent } from "@/@types/models/News";
   import { Route } from "vue-router";
   import { Next } from "@/@types/library/vue-router";
+  import Tab from "@/components/Article/Common/Tab.vue";
 
   Component.registerHooks([
     'beforeRouteEnter',
   ]);
   @Component({
     components: {
+      Tab,
       CustomButton,
       CustomTitle,
       ArticleListTable
@@ -93,22 +91,6 @@
 <style lang="scss" scoped>
   .article-list {
     position: relative;
-    ul {
-      overflow: hidden;
-      margin-bottom: 63px;
-      li {
-        float: left;
-        margin-right: 26px;
-        a {
-          font-size: 22px;
-          font-weight: normal;
-          color: #c8c5c5;
-          &.router-link-exact-active {
-            color: #0f0f0f;
-          }
-        }
-      }
-    }
     .article-list__button-wrapper {
       margin-bottom: 92px;
       text-align: right;

@@ -1,7 +1,8 @@
 import { IServiceResponse } from "@/@types/utility/ajax";
-import axiosInstance, { apiRequest } from "@/api/initializer/axios";
+import { apiRequest } from "@/api/initializer/axios";
+import { IPicksResponse } from "@/api/types/Picks";
 
-export const fetchPickList = (): Promise<IServiceResponse<IPageableContent<IPeekContent>>> => apiRequest<IPageableContent<IPeekContent>>({
+export const fetchPickList = (): Promise<IServiceResponse<IPicksResponse>> => apiRequest<IPicksResponse>({
   method: "GET",
   url: "/api/picks"
 });

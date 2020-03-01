@@ -12,7 +12,7 @@ interface IPageable {
 }
 
 interface IPageableContent<T> {
-  content: T;
+  content: T[];
   empty: boolean;
   first: boolean;
   last: boolean;

@@ -7,9 +7,9 @@ const axiosInstance = axios.create({
 
 export async function apiRequest<T>(config: AxiosRequestConfig): Promise<IServiceResponse<T>> {
   try {
-    const { data } = await axiosInstance.request<{ data: T }>(config);
+    const { data } = await axiosInstance.request<T>(config);
     return {
-      data: data.data,
+      data,
       isSuccess: true,
     };
   } catch (e) {

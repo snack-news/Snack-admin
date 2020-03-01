@@ -6,6 +6,7 @@ import ArticleCreate from '@/views/News/ArticleCreate.vue'
 import ArticleList from '@/views/News/ArticleList.vue'
 import Signup from "@/views/Signup.vue"
 import ArticleEdit from "@/views/News/ArticleEdit.vue";
+import Picks from "@/views/Picks/Picks.vue";
 
 import HeaderComponent from '@/components/Layouts/HeaderComponent.vue'
 import { Next } from "@/@types/library/vue-router";
@@ -47,6 +48,17 @@ const router = new Router({
       },
       meta: {
         isRequiredAuth: false
+      }
+    },
+    {
+      path: "/news",
+      name: "News",
+      components: {
+        header: HeaderComponent,
+        default: ArticleList
+      },
+      meta: {
+        isRequiredAuth: true
       }
     },
     {
@@ -105,6 +117,20 @@ const router = new Router({
         default: true,
       }
     },
+    {
+      path: "/picks",
+      name: "Picks",
+      components: {
+        header: HeaderComponent,
+        default: Picks
+      },
+      meta: {
+        isRequiredAuth: true
+      },
+      props: {
+        default: true,
+      }
+    }
   ]
 });
 

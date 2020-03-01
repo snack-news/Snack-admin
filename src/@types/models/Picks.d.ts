@@ -1,4 +1,4 @@
-interface IPeekContent {
+export interface IPickContent {
   id: number;
   link: string;
   topicNames: string[];
