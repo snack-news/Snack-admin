@@ -1,11 +1,13 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import BootstrapVue from 'bootstrap-vue'
-import store from './store'
+import Vue from "vue"
+import App from "./App.vue"
+import router from "./router"
+import BootstrapVue from "bootstrap-vue"
+import store from "./store"
 import CustomPlugin from "./modules/plugin";
 import firebaseAuthService from "@/api/initializer/firebase";
 import Snotify, { SnotifyPosition } from "vue-snotify"
+// @ts-ignore
+import Fragment from "vue-fragment"
 
 Vue.use(CustomPlugin);
 
@@ -16,7 +18,7 @@ const options = {
 };
 
 Vue.use(Snotify, options);
-
+Vue.use(Fragment.Plugin)
 /**
  * @description Use third party library
  */
@@ -33,7 +35,7 @@ function appStartPack () {
         router,
         store,
         render: h => h(App)
-      }).$mount('#app')
+      }).$mount("#app")
     }
   })
 }

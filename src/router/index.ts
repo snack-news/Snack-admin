@@ -12,6 +12,7 @@ import HeaderComponent from '@/components/Layouts/HeaderComponent.vue'
 import { Next } from "@/@types/library/vue-router";
 
 import navigationGuard from "./middleware/navigation-guard";
+import ArticleBulkCreate from "@/views/News/ArticleBulkCreate.vue";
 
 
 Vue.use(Router);
@@ -62,31 +63,14 @@ const router = new Router({
       }
     },
     {
-      path: '/articles',
+      path: '/articles/:page?',
       name: 'ArticleList',
       components: {
         header: HeaderComponent,
         default: ArticleList
       },
       props: {
-        default: (route: Route) => ({
-          page: route.query.page,
-          type: route.query.type
-        })
-      },
-      beforeEnter (to: Route, from: Route, next: Next) {
-        if (!to.query.type || !to.query.page) {
-          next({
-            name: "ArticleList",
-            query: {
-              page: "1",
-              type: "news",
-              ...to.query
-            }
-          });
-        } else {
-          next();
-        }
+        default: true
       },
       meta: {
         isRequiredAuth: true
@@ -98,6 +82,17 @@ const router = new Router({
       components: {
         header: HeaderComponent,
         default: ArticleCreate
+      },
+      meta: {
+        isRequiredAuth: true
+      }
+    },
+    {
+      path: '/new-bulk-article',
+      name: 'ArticleBulkCreate',
+      components: {
+        header: HeaderComponent,
+        default: ArticleBulkCreate
       },
       meta: {
         isRequiredAuth: true

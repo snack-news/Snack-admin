@@ -1,5 +1,5 @@
 <template>
-  <button :style="inlineStyle" :class="[`is-${color}`,`is-size-${size}`, 'custom-button']" :type="type">
+  <button :style="inlineStyle" @click="onClickHandler" :class="[`is-${color}`,`is-size-${size}`, { 'is-wide': wide }, 'custom-button']" :type="type">
     <slot />
   </button>
 </template>
@@ -8,6 +8,7 @@
 
   @Component
   export default class CustomButton extends Vue {
+    @Prop({ default: false }) wide!: boolean;
     @Prop({ default: "button" }) type!: string;
     @Prop({ default: "type01" }) color!: string;
     @Prop({ default: "m" }) size!: string;
@@ -15,6 +16,9 @@
 
     constructor () {
       super();
+    }
+    onClickHandler () {
+      this.$emit("click");
     }
 
   }
@@ -30,6 +34,9 @@
       min-width: 201px;
       padding: 20px 45px 18px;
       font-size: 28px;
+    }
+    &.is-wide {
+      width: 100%;
     }
     /* 스타일 관련 스타일 정의 */
     &.is-type01 {

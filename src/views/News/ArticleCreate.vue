@@ -93,6 +93,7 @@
   import { INullable } from "@/@types/utility";
   import { OutputData } from "@editorjs/editorjs/types/data-formats/output-data";
   import { fetchCategoryList } from "@/api/category";
+  import { ISelectComponentOption } from "@/@types/utility/components";
   @Component({
     components: {
       CustomButton,
@@ -106,7 +107,7 @@
     createdAt: INullable<Date>;
     link: string;
     topic: string;
-    options: { value: number; text: string; }[];
+    options: ISelectComponentOption[];
     publishAt: INullable<Date>;
     content: OutputData["blocks"];
     output: string;
@@ -127,7 +128,7 @@
       const response = await fetchCategoryList();
       if (response.isSuccess) {
         this.options = response.data.options;
-        this.categoryId = this.options[0].value;
+        this.categoryId = <number>this.options[0].value;
       } else {
         alert(response.message);
       }
