@@ -90,6 +90,7 @@
   import { OutputData } from "@editorjs/editorjs/types/data-formats/output-data";
   import { INewsContent } from "@/@types/models/News";
   import { fetchCategoryList } from "@/api/category";
+  import { ISelectComponentOption } from "@/@types/utility/components";
 
   @Component({
     components: {
@@ -104,7 +105,7 @@
     createdAt: INullable<Date>;
     link: INullable<string>;
     topic: string;
-    options: { value: number; text: string; }[];
+    options: ISelectComponentOption[];
     publishAt: INullable<Date>;
     content: OutputData["blocks"];
     output: string;
@@ -133,7 +134,6 @@
           this.link = link;
           this.publishAt = publishAt ? new Date(publishAt) : null;
           this.topic = topics.map(({ name }) => name).join(",");
-          console.log(category.id);
           this.categoryId = category.id;
         }
       });

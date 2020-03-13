@@ -1,6 +1,5 @@
-interface IFetchCategoryList {
-  options: Array<{
-    value: number;
-    text: string;
-  }>;
+import { ISelectComponentOption } from "@/@types/utility/components";
+
+export interface IFetchCategoryList {
+  options: ISelectComponentOption[];
 }
