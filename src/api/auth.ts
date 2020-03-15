@@ -1,5 +1,5 @@
-import firebase, { User } from "firebase";
 import firebaseAuthService, { fireStore } from "./initializer/firebase";
+import * as firebase from 'firebase/app';
 import { INullable } from "@/@types/utility";
 import { IServiceResponse } from "@/@types/utility/ajax";
 import { IEmailAuthRequiredParams, ISignupWithEmailRequiredParams } from "@/api/types/auth";
@@ -28,7 +28,6 @@ export async function signupWithEmail ({ emailId, password }: ISignupWithEmailRe
     };
   }
 }
-
 export async function emailAuth ({ emailId, password }: IEmailAuthRequiredParams): Promise<IServiceResponse<firebase.User>> {
   try {
     const { user } = await firebaseAuthService.auth().signInWithEmailAndPassword(emailId, password);
@@ -79,7 +78,7 @@ export async function googleAuth (): Promise<IServiceResponse<firebase.User>> {
   }
 }
 
-export async function whoAmI (): Promise<INullable<User>> {
+export async function whoAmI (): Promise<INullable<firebase.User>> {
   const { currentUser } = await firebaseAuthService.auth();
   if (!currentUser) {
     return null;
