@@ -162,7 +162,7 @@
         this.$snotify.success("소식이 성공적으로 작성되었습니다.");
         this.$router.push({ name: "ArticleList" });
       } else {
-        this.$snotify.success("잠시 후 다시 시도하세요.");
+        this.$snotify.error("잠시 후 다시 시도하세요.");
       }
     }
     async onCancelHandler (): Promise<void> {

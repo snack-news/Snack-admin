@@ -79,9 +79,18 @@
     }
     async onSubmitHandler () {
       const response = await createArticleList(this.contents);
+      if (response.isSuccess) {
+        this.$snotify.success("소식이 성공적으로 작성되었습니다.");
+        this.$router.push({ name: "ArticleList" });
+      } else {
+        this.$snotify.error(response.message);
+      }
     }
     onCancelHandler () {
-
+      const isConfirmedCancel = confirm("작성을 취소하시겠습니까? 작성을 취소하시면 기존 작성 중이던 내용은 모두 사라집니다.");
+      if (isConfirmedCancel) {
+        this.$router.push({ name: "ArticleList" });
+      }
     }
   }
 </script>
