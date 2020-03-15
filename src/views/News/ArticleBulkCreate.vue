@@ -14,6 +14,7 @@
         <table>
         <thead>
           <tr>
+            <th>제목</th>
             <th>링크</th>
             <th>카테고리</th>
             <th>토픽</th>

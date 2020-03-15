@@ -31,6 +31,7 @@ export async function createNews (params: ICreateNewsParams): Promise<IServiceRe
 }
 
 interface ICreateNewsList {
+  title: string;
   categoryId: number;
   topic: string;
   link: string;

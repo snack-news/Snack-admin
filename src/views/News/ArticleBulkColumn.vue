@@ -2,6 +2,11 @@
   <fragment>
     <td>
       <input type="text"
+             v-model="title"
+             @change="onChangeHandler" />
+    </td>
+    <td>
+      <input type="text"
              v-model="link"
              @change="onChangeHandler" />
     </td>
@@ -49,6 +54,7 @@
   export default class ArticleBulkColumn extends Vue {
     @Prop() options!: ISelectComponentOption[];
 
+    title: string = "";
     link: string = "";
     category: string | number = "";
     topic: string = "";
@@ -59,6 +65,7 @@
 
     onChangeHandler () {
       this.$emit("onChange", {
+        title: this.title,
         link: this.link,
         categoryId: this.category,
         topic: this.topic,
