@@ -23,7 +23,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(content, index) in contents" :key="content.title">
+          <tr v-for="(content, index) in contents" :key="index">
             <article-bulk-column
               :options="options"
               @onChange="(value) => onChangeHandler(index, value)"

@@ -27,7 +27,7 @@
         v-model="createdAt"
         :type="'datetime'"
         :format="'YYYY-MM-DD [at] HH:mm'"
-        @change="onChangeHandler"
+        @input="onChangeHandler"
       />
     </td>
     <td>
@@ -74,21 +74,6 @@
     }
     onClickHandler () {
       this.$emit("onClick");
-    }
-    validate () {
-      if (this.link === "") {
-        alert("링크를 입ㄹ겨")
-        return false;
-      }
-      if (this.topic === "") {
-        alert("링크를 입ㄹ겨")
-        return false;
-      }
-      if (this.createdAt === null) {
-        alert("링크를 입ㄹ겨")
-        return false;
-      }
-      return true;
     }
   }
 </script>
