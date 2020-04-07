@@ -24,7 +24,7 @@
     </td>
     <td>
       <date-picker
-        v-model="createdAt"
+        v-model="publishAt"
         :type="'datetime'"
         :format="'YYYY-MM-DD [at] HH:mm'"
         @input="onChangeHandler"
@@ -58,9 +58,9 @@
     link: string = "";
     category: string | number = "";
     topic: string = "";
-    createdAt: INullable<Date> = null;
+    publishAt: INullable<Date> = null;
     mounted () {
-      this.category = <number>this.options[0].value;
+      // this.category = <number>this.options[0].value;
     }
 
     onChangeHandler () {
@@ -69,7 +69,7 @@
         link: this.link,
         categoryId: this.category,
         topic: this.topic,
-        createdAt: this.createdAt
+        publishAt: this.publishAt
       });
     }
     onClickHandler () {

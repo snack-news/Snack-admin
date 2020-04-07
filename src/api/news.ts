@@ -3,6 +3,7 @@ import { ICreateNewsParams, IUpdateNewsParams } from "@/api/types/news";
 import axiosInstance, { apiRequest } from "@/api/initializer/axios";
 import { INewsContent } from "@/@types/models/News";
 import { INullable } from "@/@types/utility";
+import { parseISO } from "@/utilities/parse-iso";
 
 export const fetchNewsList = (page: number): Promise<IServiceResponse<IPageableContent<INewsContent>>> => apiRequest<IPageableContent<INewsContent>>({
   method: "GET",
@@ -16,7 +17,7 @@ function generateTopicList (topic: string = "") {
 export async function createNews (params: ICreateNewsParams): Promise<IServiceResponse<null>> {
   try {
     const topicNames = generateTopicList(params.topic);
-    await axiosInstance.post("/admin/api/news", [{ ...params, topicNames }]);
+    await axiosInstance.post("/admin/api/news", [{ ...params, topicNames, publishAt: params.publishAt && parseISO(params.publishAt) }]);
     return {
       data: null,
       isSuccess: true
@@ -35,12 +36,13 @@ interface ICreateNewsList {
   categoryId: number;
   topic: string;
   link: string;
-  createdAt: INullable<Date>;
+  publishAt: INullable<Date>;
 }
 
 export const createArticleList = (params: ICreateNewsList[]): Promise<IServiceResponse<null>> => {
   const _payload = params.map(param => ({
     ...param,
+    publishAt: param.publishAt && parseISO(param.publishAt),
     topicNames: generateTopicList(param.topic)
   }));
   return apiRequest({
